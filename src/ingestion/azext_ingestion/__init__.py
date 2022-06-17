@@ -5,14 +5,14 @@
 
 from azure.cli.core import AzCommandsLoader
 
-from azext_ingestion._help import helps  # pylint: disable=unused-import
+from azext_ingestion.generated._help import helps  # pylint: disable=unused-import
 
 
 class IngestionCommandsLoader(AzCommandsLoader):
 
     def __init__(self, cli_ctx=None):
         from azure.cli.core.commands import CliCommandType
-        from azext_ingestion._client_factory import cf_ingestion
+        from azext_ingestion.generated._client_factory import cf_ingestion
         ingestion_custom = CliCommandType(
             operations_tmpl='azext_ingestion.custom#{}',
             client_factory=cf_ingestion)
@@ -20,12 +20,12 @@ class IngestionCommandsLoader(AzCommandsLoader):
                                                   custom_command_type=ingestion_custom)
 
     def load_command_table(self, args):
-        from azext_ingestion.commands import load_command_table
+        from azext_ingestion.generated.commands import load_command_table
         load_command_table(self, args)
         return self.command_table
 
     def load_arguments(self, command):
-        from azext_ingestion._params import load_arguments
+        from azext_ingestion.generated._params import load_arguments
         load_arguments(self, command)
 
 

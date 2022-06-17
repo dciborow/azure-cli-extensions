@@ -6,6 +6,10 @@
 
 from knack.help_files import helps  # pylint: disable=unused-import
 
+############################################
+# Help commands for our commands and sub group
+# commands.
+############################################
 
 helps['ingestion'] = """
     type: group
@@ -22,9 +26,24 @@ helps['ingestion list'] = """
     short-summary: List Ingestions.
 """
 
-helps['ingestion token'] = """
+# Help for sub command ingestion token - get
+helps['ingestion token get'] = """
     type: command
     short-summary: Get authentication token.
+    examples:
+      - name: Acquire platform token
+        text: |-
+                Token can be acquired by providing the configuration direction or by providing a 
+                configuration json file with the settings contained within it. 
+
+                az ingestion token --tenent "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                                  --service-principal "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                                  --service-principal-credential "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                or
+                
+                Supply a configuration file, as a json dictionry, with the above fields. 
+                
+                az ingestion token --configuration "local_json_with_settings"
 """
 
 # helps['ingestion delete'] = """

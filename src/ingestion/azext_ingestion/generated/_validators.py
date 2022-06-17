@@ -3,6 +3,8 @@
 # Licensed under the MIT License. See License.txt in the project root for license information.
 # --------------------------------------------------------------------------------------------
 
+import os
+from knack.util import CLIError
 
 def example_name_or_id_validator(cmd, namespace):
     # Example of a storage account name or ID validator.
@@ -18,3 +20,17 @@ def example_name_or_id_validator(cmd, namespace):
                 type='storageAccounts',
                 name=namespace.storage_account
             )
+
+# For az ingestion token get, validate the parameters
+def acquire_token_validator(cmd, namespace):
+    """
+    Must provide service_principal, service_principal_secret, azure_tenent together 
+    or have a valid configuration_file
+    """
+    if not namespace.service_principal or not namespace.service_principal_secret or not namespace.azure_tenent:
+        # Then there MUST be a valid configuration file present.
+        if not namespace.configuration_file:
+            raise CLIError("Call requires valid configuration information, see help for the command.")
+   
+        if not os.path.exists(namespace.configuration_file):
+            raise CLIError("Provided configuration file does not exist.")
