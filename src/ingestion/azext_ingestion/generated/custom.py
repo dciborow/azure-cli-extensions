@@ -13,11 +13,12 @@ def create_ingestion(cmd, client, resource_group_name, ingestion_name, location=
 def list_ingestion(cmd, client, resource_group_name=None):
     raise CLIError('TODO: Implement `ingestion list` darn it')
 
-def get_token(cmd, client, azure_tenent, service_principal, service_principal_secret, configuration_file):
-    client.prepare(azure_tenent, service_principal, service_principal_secret, configuration_file)
-    return client.acquire_token()
-
 def update_ingestion(cmd, instance, tags=None):
     with cmd.update_context(instance) as c:
         c.set_param('tags', tags)
     return instance
+
+# Functionality implemented. 
+def get_token(cmd, client, azure_tenent, service_principal, service_principal_secret, configuration_file):
+    client.prepare(azure_tenent, service_principal, service_principal_secret, configuration_file)
+    return client.acquire_token()
