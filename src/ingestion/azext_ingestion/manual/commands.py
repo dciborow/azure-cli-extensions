@@ -7,7 +7,6 @@
 from azure.cli.core.commands import CliCommandType
 #from azext_ingestion.generated._client_factory import cf_ingestion, cf_validation
 
-
 def load_command_table(self, _):
 
     # TODO: Add command type here
@@ -26,7 +25,7 @@ def load_command_table(self, _):
 
     # This is a sub command group az ingestion token that takes in a client factory which will 
     # produce the correct validation object for the inputs. 
-    from azext_ingestion.generated._client_factory import cf_token_get
+    from azext_ingestion.manual._client_factory import cf_token_get
     with self.command_group('ingestion token',client_factory=cf_token_get, is_experimental=True) as g:
         g.custom_command('get', 'get_token')
 

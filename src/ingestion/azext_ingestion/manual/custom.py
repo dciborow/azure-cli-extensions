@@ -4,7 +4,7 @@
 # --------------------------------------------------------------------------------------------
 
 from knack.util import CLIError
-import requests
+from azext_ingestion.manual.src.contracts.ITokenProvider import ITokenProvider
 
 def create_ingestion(cmd, client, resource_group_name, ingestion_name, location=None, tags=None):
     raise CLIError('TODO: Implement `ingestion create`')
@@ -19,6 +19,6 @@ def update_ingestion(cmd, instance, tags=None):
     return instance
 
 # Functionality implemented. 
-def get_token(cmd, client, azure_tenent, service_principal, service_principal_secret, configuration_file):
+def get_token(cmd, client:ITokenProvider, azure_tenent:str, service_principal:str, service_principal_secret:str, configuration_file:str):
     client.prepare(azure_tenent, service_principal, service_principal_secret, configuration_file)
     return client.acquire_token()

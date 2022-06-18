@@ -4,6 +4,7 @@
 # --------------------------------------------------------------------------------------------
 
 from knack.util import CLIError
+from azext_ingestion.manual.src.contracts.ITokenProvider import ITokenProvider
 
 def cf_ingestion(cli_ctx, *_):
     """
@@ -16,7 +17,7 @@ def cf_ingestion(cli_ctx, *_):
     # return get_mgmt_service_client(cli_ctx, CONTOSOManagementClient)
     return None
 
-def cf_token_get(cli_ctx, *_):
+def cf_token_get(cli_ctx, *_) -> ITokenProvider:
     """
     Client for acquiring a token. 
     """
@@ -28,8 +29,8 @@ def cf_token_get(cli_ctx, *_):
 	#   'param_name2': None,
 	#   'etc....': None
     #}
-    from .src._token import TokenConfigurationService
-    return TokenConfigurationService()
+    from .src._sp_token_provider import SPTokenConfigurationService
+    return SPTokenConfigurationService()
 
     # There is a lot of stuff in this context object, how do we get the 
 #    for k in cli_ctx.__dict__:

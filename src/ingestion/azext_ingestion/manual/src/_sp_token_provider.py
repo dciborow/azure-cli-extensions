@@ -1,7 +1,8 @@
 import requests
 from knack.util import CLIError
+from .contracts.ITokenProvider import ITokenProvider
 
-class TokenConfigurationService:
+class SPTokenConfigurationService(ITokenProvider):
     """
     Service used to request an access token for a service principal. 
     """
@@ -34,20 +35,20 @@ class TokenConfigurationService:
             except Exception as ex:
                 raise CLIError("{} is invalid JSON for configuration".format(configuration))
 
-            if TokenConfigurationService.PRINCIPAL in content:
-                self.principal_id = content[TokenConfigurationService.PRINCIPAL]
+            if SPTokenConfigurationService.PRINCIPAL in content:
+                self.principal_id = content[SPTokenConfigurationService.PRINCIPAL]
             else:
-                raise CLIError("{} required in configuration file", TokenConfigurationService.PRINCIPAL)
+                raise CLIError("{} required in configuration file", SPTokenConfigurationService.PRINCIPAL)
 
-            if TokenConfigurationService.CREDENTIAL in content:
-                self.principal_cred = content[TokenConfigurationService.CREDENTIAL]
+            if SPTokenConfigurationService.CREDENTIAL in content:
+                self.principal_cred = content[SPTokenConfigurationService.CREDENTIAL]
             else:
-                raise CLIError("{} required in configuration file", TokenConfigurationService.CREDENTIAL)
+                raise CLIError("{} required in configuration file", SPTokenConfigurationService.CREDENTIAL)
 
-            if TokenConfigurationService.TENENT in content:
-                self.tenent = content[TokenConfigurationService.TENENT]
+            if SPTokenConfigurationService.TENENT in content:
+                self.tenent = content[SPTokenConfigurationService.TENENT]
             else:
-                raise CLIError("{} required in configuration file", TokenConfigurationService.TENENT)
+                raise CLIError("{} required in configuration file", SPTokenConfigurationService.TENENT)
 
 
     def acquire_token(self) -> dict:
