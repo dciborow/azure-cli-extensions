@@ -4,21 +4,28 @@ import os
 import json
 from knack.util import CLIError
 
+
 class IPersistConfiguration(ABC):
 
+    EXTENSION_ROOT = ".azext_ingestion"
+
+    def __init__(self, sub_path: str, file_name:str):
+        self.sub_path = sub_path
+        self.file_name = file_name
+
     def get_local_root(self) -> str:
-        return str(Path.home())
+        return os.path.join(str(Path.home()), IPersistConfiguration.EXTENSION_ROOT)
 
-    def get_configuration(self, directory:str, file:str) -> dict:
-
+    def get_configuration(self) -> dict:
+       
         return_data = None
 
-        if not directory:
+        if not self.sub_path:
             raise CLIError("Directory is required to acquire configuration file.")
-        if not file:
+        if not self.file_name:
             raise CLIError("Configuration file is required.")
 
-        path = os.path.join(self.get_local_root(), directory, file)
+        path = os.path.join(self.get_local_root(), self.sub_path, self.file_name)
 
         if os.path.exists(path):
             try:
@@ -32,21 +39,21 @@ class IPersistConfiguration(ABC):
 
         return return_data
 
-    def save_configuration(self, directory:str, file:str, data:dict) -> None:
+    def save_configuration(self, data:dict) -> None:
 
-        return_data = None
-
-        if not directory:
+        if not self.sub_path:
             raise CLIError("Directory is required to acquire configuration file.")
-        if not file:
+        if not self.file_name:
             raise CLIError("Configuration file is required.")
 
-        path = os.path.join(self.get_local_root(), directory)
+        path = os.path.join(self.get_local_root(), self.sub_path)
 
         if not os.path.exists(path):
             os.makedirs(path)
 
-        path = os.path.join(path, file)
+        path = os.path.join(path, self.file_name)
+
+        print("SAVE TO: {}".format(path))
 
         if not data:
             if os.path.exists(path):

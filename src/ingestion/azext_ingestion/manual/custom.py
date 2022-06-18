@@ -20,5 +20,12 @@ def update_ingestion(cmd, instance, tags=None):
 
 # Functionality implemented. 
 def get_token(cmd, client:ITokenProvider, azure_tenent:str, service_principal:str, service_principal_secret:str, configuration_file:str):
+    from .src._osdu_persist_config import OSDUPersistConfiguration
+    p = OSDUPersistConfiguration()
+    p.configuration["first"] = "data"
+    p.save_configuration()
+    p.configuration = {}
+    p.get_configuration()
+
     client.prepare(azure_tenent, service_principal, service_principal_secret, configuration_file)
     return client.acquire_token()
