@@ -6,6 +6,7 @@
 from knack.util import CLIError
 from azext_ingestion.manual.src.contracts.ITokenProvider import ITokenProvider
 from azext_ingestion.manual.src.contracts.IPersistConfiguration import IPersistConfiguration
+from azext_ingestion.manual.src._tool_executioner import ToolExecutionContext, ToolExecutioner
 
 def cf_ingestion(cli_ctx, *_):
     """
@@ -31,3 +32,17 @@ def cf_platform_config(cli_ctx, *_) -> IPersistConfiguration:
     """
     from .src._osdu_persist_config import OSDUPersistConfiguration
     return OSDUPersistConfiguration()
+
+def cf_tool_config(cli_ctx, *_) -> IPersistConfiguration:
+    """
+    Client for acquiring a token. 
+    """
+    from .src._tool_persist_config import ToolPersistConfiguration
+    return ToolPersistConfiguration()
+
+def cf_tool_executor(cli_ctx, *_) -> ToolExecutionContext:
+    context = ToolExecutionContext()
+    context.executor = ToolExecutioner()
+    context.platform_config = cf_platform_config(None, None)
+    context.tool_config = cf_tool_config(None, None)
+    return context

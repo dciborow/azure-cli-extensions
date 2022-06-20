@@ -22,6 +22,7 @@ def load_arguments(self, _):
     ingestion_auth_tenent_type = CLIArgumentType(options_list='--ingestion-auth-tenent', help='Active Directory Tenent', id_part='tenent', required=False)
 
     configuration_section_platform = CLIArgumentType(options_list='--ingestion-configuration-platform', help='Configuration Platform', id_part='platform', required=True)
+    configuration_section_tool = CLIArgumentType(options_list='--ingestion-configuration-tool', help='Configuration Tool', id_part='tool', required=True)
 
     # Main command group parameters - global currently unused
     with self.argument_context('ingestion') as c:
@@ -55,3 +56,23 @@ def load_arguments(self, _):
 
     with self.argument_context('ingestion platform remove') as c:
         c.argument('platform_name', configuration_section_platform, options_list=['--platform', '-p'])
+
+    ##############################################
+    # Tool Config
+    ##############################################
+    with self.argument_context('ingestion tool add', validator=configuration_file_validator) as c:
+        c.argument('configuration_file', configuration_file_type, options_list=['--configuration', '-f'])
+
+    with self.argument_context('ingestion tool show') as c:
+        c.argument('tool_name', configuration_section_tool, options_list=['--tool', '-t'])
+
+    with self.argument_context('ingestion tool remove') as c:
+        c.argument('tool_name', configuration_section_tool, options_list=['--tool', '-t'])
+
+    ##############################################
+    # Tool Execute
+    ##############################################
+    with self.argument_context('ingestion execute', validator=configuration_file_validator) as c:
+        c.argument('platform_name', configuration_section_platform, options_list=['--platform', '-p'])
+        c.argument('tool_name', configuration_section_tool, options_list=['--tool', '-t'])
+        c.argument('configuration_file', configuration_file_type, options_list=['--configuration', '-f'])

@@ -1,3 +1,8 @@
+# --------------------------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See License.txt in the project root for license information.
+# --------------------------------------------------------------------------------------------
+
 from abc import ABC, abstractmethod
 from pathlib import Path
 import os
@@ -59,8 +64,6 @@ class IPersistConfiguration(ABC):
 
         path = os.path.join(path, self.file_name)
 
-        print("SAVE TO: {}".format(path))
-
         if not data:
             if os.path.exists(path):
                 os.remove(path)
@@ -76,3 +79,19 @@ class IPersistConfiguration(ABC):
     @abstractmethod
     def put_section(self, section_name:str, data:dict) -> None:
         """Put a section, if data is none, remove it."""
+
+    @staticmethod
+    def load_configuration(configuration_file:str, as_json:bool) -> object:
+
+        if not os.path.exists(configuration_file):
+            raise CLIError("Configuration file missing: {}".format(configuration_file))
+       
+        settings = None    
+       
+        with open(configuration_file, "r") as configuration:
+            settings = configuration.readlines()
+            if as_json:
+                settings = "\n".join(settings)
+                settings = json.loads(settings)
+        
+        return settings

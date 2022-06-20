@@ -46,6 +46,48 @@ helps['ingestion token get'] = """
                 az ingestion token --configuration "local_json_with_settings"
 """
 
+helps['ingestion platform add'] = """
+    type: command
+    short-summary: Adds an OSDU platform configuration to tool settings.
+    examples:
+      - name: Adds a platform to the internal settings to be used later.
+        text: |-
+                File format is JSON and MUST contain the following fields:
+
+                {
+                    "name" : "Platform name, spaces require quotes when show/remove called",
+                    "url" : "Base Url of the OSDU platform",
+                    "data_partition" : "Name of the data partition to use",
+                    "api_path" : {
+                        "ENTITLEMENTS_HOST" : "/api/entitlements/v2",
+                        "LEGAL_HOST" : "/api/legal/v1",
+                        "SCHEMA_HOST" : "/api/schema-service/v1",
+                        "STORAGE_HOST" : "/api/storage/v2",
+                        "SEARCH_HOST" : "/api/search/v2",
+                        "WORKLFOW_HOST" : "/api/workflow/v1",
+                        "FILE_HOST" : "/api/file/v2",
+                        "PARTITION_HOST" : "/api/partition/v1",
+                        "REGISTER_HOST" : "/api/register/v1"        
+                    }
+                }
+"""
+
+helps['ingestion tool add'] = """
+    type: command
+    short-summary: Adds a tool configuration to the settings.
+    examples:
+      - name: Adds a tool to the internal settings to be used later.
+        text: |-
+                File format is JSON and MUST contain the following fields:
+
+                {
+                    "name" : "Platform name, spaces require quotes when show/remove called",
+                    "others" : "not validated"
+                }
+"""
+
+
+
 # helps['ingestion delete'] = """
 #     type: command
 #     short-summary: Delete a Ingestion.

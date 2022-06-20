@@ -16,10 +16,10 @@ def load_command_table(self, _):
 
     # This is the main command group az ingestion
     with self.command_group('ingestion') as g:
-        #g.custom_command('token', 'get_token')
-        g.custom_command('create', 'create_ingestion')
+        pass
+        #g.custom_command('create', 'create_ingestion')
         # g.command('delete', 'delete')
-        g.custom_command('list', 'list_ingestion')
+        #g.custom_command('list', 'list_ingestion')
         # g.show_command('show', 'get')
         # g.generic_update_command('update', setter_name='update', custom_func_name='update_ingestion')
 
@@ -52,3 +52,25 @@ def load_command_table(self, _):
     with self.command_group('ingestion platform', is_preview=True):
         pass
 
+    ############################################
+    # Tool Configuration
+    ############################################
+    from azext_ingestion.manual._client_factory import cf_tool_config
+    with self.command_group('ingestion tool',client_factory=cf_tool_config, is_experimental=True) as g:
+        g.custom_command('add', 'add_tool')
+        g.custom_command('list', 'list_tools')
+        g.custom_command('remove', 'remove_tool')
+        g.custom_command('show', 'show_tool')
+
+    with self.command_group('ingestion tool', is_preview=True):
+        pass
+
+    ############################################
+    # Tool Execution Configuration
+    ############################################
+    from azext_ingestion.manual._client_factory import cf_tool_executor
+    with self.command_group('ingestion execute',client_factory=cf_tool_executor, is_experimental=True) as g:
+        g.custom_command('job', 'execute_tool')
+
+    with self.command_group('ingestion execute', is_preview=True):
+        pass

@@ -1,4 +1,10 @@
+# --------------------------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See License.txt in the project root for license information.
+# --------------------------------------------------------------------------------------------
+
 from .contracts.IPersistConfiguration import IPersistConfiguration
+from knack.util import CLIError
 
 
 class OSDUPersistConfiguration(IPersistConfiguration):
@@ -16,21 +22,17 @@ class OSDUPersistConfiguration(IPersistConfiguration):
 
         }
     ]
-@ENTITLEMENTS_HOST = {{ENDPOINT}}/api/entitlements/v2
-@LEGAL_HOST = {{ENDPOINT}}/api/legal/v1
-@SCHEMA_HOST = {{ENDPOINT}}/api/schema-service/v1
-@STORAGE_HOST = {{ENDPOINT}}/api/storage/v2
-@SEARCH_HOST = {{ENDPOINT}}/api/search/v2
-@WORKLFOW_HOST = {{ENDPOINT}}/api/workflow/v1
-@FILE_HOST = {{ENDPOINT}}/api/file/v2
-@PARTITION_HOST = {{ENDPOINT}}/api/partition/v1
-@REGISTER_HOST = {{ENDPOINT}}/api/register/v1
+    Api Path Examples
 
-    Dictionary in MUST adhere to the above contract where
-    name != None
-    url != None
-    data_partition != None
-    len(api_hosts) > 0
+    @ENTITLEMENTS_HOST = {{ENDPOINT}}/api/entitlements/v2
+    @LEGAL_HOST = {{ENDPOINT}}/api/legal/v1
+    @SCHEMA_HOST = {{ENDPOINT}}/api/schema-service/v1
+    @STORAGE_HOST = {{ENDPOINT}}/api/storage/v2
+    @SEARCH_HOST = {{ENDPOINT}}/api/search/v2
+    @WORKLFOW_HOST = {{ENDPOINT}}/api/workflow/v1
+    @FILE_HOST = {{ENDPOINT}}/api/file/v2
+    @PARTITION_HOST = {{ENDPOINT}}/api/partition/v1
+    @REGISTER_HOST = {{ENDPOINT}}/api/register/v1
     """
 
     # Root level values
@@ -75,7 +77,11 @@ class OSDUPersistConfiguration(IPersistConfiguration):
         """Put a section, if data is none, remove it."""
         if not data and section_name in self.configuration:
             del self.configuration[section_name]
-        else:
+        elif data and section_name:
+            for field in OSDUPersistConfiguration.PLATFORM_VALIDATION:
+                if field not in data:
+                    raise CLIError("Required field missing in configuration: {}".format(field))
+
             self.configuration[section_name] = data
 
         self.save_configuration()
