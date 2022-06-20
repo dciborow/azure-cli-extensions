@@ -34,3 +34,15 @@ def acquire_token_validator(cmd, namespace):
    
         if not os.path.exists(namespace.configuration_file):
             raise CLIError("Provided configuration file does not exist.")
+
+# For az ingestion token get, validate the parameters
+def configuration_file_validator(cmd, namespace):
+    """
+    Must provide service_principal, service_principal_secret, azure_tenent together 
+    or have a valid configuration_file
+    """
+    if not namespace.configuration_file:
+        raise CLIError("Call requires valid configuration information, see help for the command.")
+   
+    if not os.path.exists(namespace.configuration_file):
+        raise CLIError("Provided configuration file does not exist.")

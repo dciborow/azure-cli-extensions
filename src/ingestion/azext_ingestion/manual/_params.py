@@ -5,7 +5,7 @@
 # pylint: disable=line-too-long
 
 from knack.arguments import CLIArgumentType
-from ._validators import acquire_token_validator
+from ._validators import acquire_token_validator, configuration_file_validator
 
 
 def load_arguments(self, _):
@@ -21,19 +21,37 @@ def load_arguments(self, _):
     ingestion_auth_secret_type = CLIArgumentType(options_list='--ingestion-auth-secret', help='Service Principal Secret.', id_part='secret', required=False)
     ingestion_auth_tenent_type = CLIArgumentType(options_list='--ingestion-auth-tenent', help='Active Directory Tenent', id_part='tenent', required=False)
 
-    # Main command group parameters
+    configuration_section_platform = CLIArgumentType(options_list='--ingestion-configuration-platform', help='Configuration Platform', id_part='platform', required=True)
+
+    # Main command group parameters - global currently unused
     with self.argument_context('ingestion') as c:
         c.argument('tags', tags_type)
         c.argument('location', validator=get_default_location_from_resource_group)
         c.argument('ingestion_name', ingestion_name_type, options_list=['--name', '-n'])
 
+    with self.argument_context('ingestion list') as c:
+        c.argument('ingestion_name', ingestion_name_type, id_part=None)
+
+    ##############################################
+    # Token
+    ##############################################
+
     # Set up parameters for a sub group, uses a validator to ensure we either get what we need
     # from the command line OR have a valid configuration file (file anyway, checked internally)
     with self.argument_context('ingestion token get', validator=acquire_token_validator) as c:
-        c.argument('service_principal', ingestion_auth_type, options_list=['--service-principal', '-p'])
+        c.argument('service_principal', ingestion_auth_type, options_list=['--service-principal', '-sp'])
         c.argument('service_principal_secret', ingestion_auth_secret_type, options_list=['--service-principal-credential', '-c'])
         c.argument('azure_tenent', ingestion_auth_tenent_type, options_list=['--tenent', '-t'])
         c.argument('configuration_file', configuration_file_type, options_list=['--configuration', '-f'])
 
-    with self.argument_context('ingestion list') as c:
-        c.argument('ingestion_name', ingestion_name_type, id_part=None)
+    ##############################################
+    # Platform Config
+    ##############################################
+    with self.argument_context('ingestion platform add', validator=configuration_file_validator) as c:
+        c.argument('configuration_file', configuration_file_type, options_list=['--configuration', '-f'])
+
+    with self.argument_context('ingestion platform show') as c:
+        c.argument('platform_name', configuration_section_platform, options_list=['--platform', '-p'])
+
+    with self.argument_context('ingestion platform remove') as c:
+        c.argument('platform_name', configuration_section_platform, options_list=['--platform', '-p'])

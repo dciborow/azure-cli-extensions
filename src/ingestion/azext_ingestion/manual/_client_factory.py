@@ -5,6 +5,7 @@
 
 from knack.util import CLIError
 from azext_ingestion.manual.src.contracts.ITokenProvider import ITokenProvider
+from azext_ingestion.manual.src.contracts.IPersistConfiguration import IPersistConfiguration
 
 def cf_ingestion(cli_ctx, *_):
     """
@@ -21,17 +22,12 @@ def cf_token_get(cli_ctx, *_) -> ITokenProvider:
     """
     Client for acquiring a token. 
     """
-
-    # Required /seen that it's a tuple with 1 item, first item is 
-    #{
-	#   'cmd': < azure.cli.core.commands.AzCliCommand object at 0x0000022F1E49CFC8 > ,
-	#   'param_name': None,
-	#   'param_name2': None,
-	#   'etc....': None
-    #}
     from .src._sp_token_provider import SPTokenConfigurationService
     return SPTokenConfigurationService()
 
-    # There is a lot of stuff in this context object, how do we get the 
-#    for k in cli_ctx.__dict__:
-#        print(k, cli_ctx.__dict__[k], "\n")
+def cf_platform_config(cli_ctx, *_) -> IPersistConfiguration:
+    """
+    Client for acquiring a token. 
+    """
+    from .src._osdu_persist_config import OSDUPersistConfiguration
+    return OSDUPersistConfiguration()

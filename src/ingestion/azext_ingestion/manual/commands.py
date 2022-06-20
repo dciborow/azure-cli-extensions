@@ -23,6 +23,13 @@ def load_command_table(self, _):
         # g.show_command('show', 'get')
         # g.generic_update_command('update', setter_name='update', custom_func_name='update_ingestion')
 
+    with self.command_group('ingestion', is_preview=True):
+        pass
+
+    ############################################
+    # Token
+    ############################################
+
     # This is a sub command group az ingestion token that takes in a client factory which will 
     # produce the correct validation object for the inputs. 
     from azext_ingestion.manual._client_factory import cf_token_get
@@ -32,5 +39,16 @@ def load_command_table(self, _):
     with self.command_group('ingestion token', is_preview=True):
         pass
 
-    with self.command_group('ingestion', is_preview=True):
+    ############################################
+    # Platform Configuration
+    ############################################
+    from azext_ingestion.manual._client_factory import cf_platform_config
+    with self.command_group('ingestion platform',client_factory=cf_platform_config, is_experimental=True) as g:
+        g.custom_command('add', 'add_platform')
+        g.custom_command('list', 'list_platforms')
+        g.custom_command('remove', 'remove_platform')
+        g.custom_command('show', 'show_platform')
+
+    with self.command_group('ingestion platform', is_preview=True):
         pass
+

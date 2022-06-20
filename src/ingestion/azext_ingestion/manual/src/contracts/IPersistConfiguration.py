@@ -8,6 +8,7 @@ from knack.util import CLIError
 class IPersistConfiguration(ABC):
 
     EXTENSION_ROOT = ".azext_ingestion"
+    SECTION_NAME = "name"
 
     def __init__(self, sub_path: str, file_name:str):
         self.sub_path = sub_path
@@ -20,12 +21,15 @@ class IPersistConfiguration(ABC):
        
         return_data = None
 
-        if not self.sub_path:
-            raise CLIError("Directory is required to acquire configuration file.")
         if not self.file_name:
             raise CLIError("Configuration file is required.")
 
-        path = os.path.join(self.get_local_root(), self.sub_path, self.file_name)
+        path = None
+        if self.sub_path:
+            path = os.path.join(self.get_local_root(), self.sub_path, self.file_name)
+        else:
+            path = os.path.join(self.get_local_root(), self.file_name)
+
 
         if os.path.exists(path):
             try:
@@ -41,12 +45,14 @@ class IPersistConfiguration(ABC):
 
     def save_configuration(self, data:dict) -> None:
 
-        if not self.sub_path:
-            raise CLIError("Directory is required to acquire configuration file.")
         if not self.file_name:
             raise CLIError("Configuration file is required.")
 
-        path = os.path.join(self.get_local_root(), self.sub_path)
+        path = None
+        if self.sub_path:
+            path = os.path.join(self.get_local_root(), self.sub_path)
+        else:
+            path = self.get_local_root()
 
         if not os.path.exists(path):
             os.makedirs(path)
