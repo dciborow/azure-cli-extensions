@@ -17,9 +17,18 @@ def load_arguments(self, _):
 
     configuration_file_type = CLIArgumentType(options_list='--ingestion-configuration-file', help='Configuration File', id_part='file', required=False)
 
+    # Service Principal
     ingestion_auth_type = CLIArgumentType(options_list='--ingestion-auth-sp', help='Service Principal ID.', id_part='sp', required=False)
     ingestion_auth_secret_type = CLIArgumentType(options_list='--ingestion-auth-secret', help='Service Principal Secret.', id_part='secret', required=False)
     ingestion_auth_tenent_type = CLIArgumentType(options_list='--ingestion-auth-tenent', help='Active Directory Tenent', id_part='tenent', required=False)
+    
+    # User
+    ingestion_auth_scope_type = CLIArgumentType(options_list='--ingestion-auth-scope', help='Authentication Scope', id_part='scope', required=True)
+
+    # Platform - alsu uses ingestion auth type
+    ingestion_auth_refresh_type = CLIArgumentType(options_list='--ingestion-auth-refresh', help='User Refersh token', id_part='refresh', required=True)
+    ingestion_auth_portal_type = CLIArgumentType(options_list='--ingestion-auth-platform', help='Experience Lab Portal Url', id_part='platform', required=True)
+
 
     configuration_section_platform = CLIArgumentType(options_list='--ingestion-configuration-platform', help='Configuration Platform', id_part='platform', required=True)
     configuration_section_tool = CLIArgumentType(options_list='--ingestion-configuration-tool', help='Configuration Tool', id_part='tool', required=True)
@@ -39,11 +48,19 @@ def load_arguments(self, _):
 
     # Set up parameters for a sub group, uses a validator to ensure we either get what we need
     # from the command line OR have a valid configuration file (file anyway, checked internally)
-    with self.argument_context('ingestion token get', validator=acquire_token_validator) as c:
+    with self.argument_context('ingestion auth sp', validator=acquire_token_validator) as c:
         c.argument('service_principal', ingestion_auth_type, options_list=['--service-principal', '-sp'])
         c.argument('service_principal_secret', ingestion_auth_secret_type, options_list=['--service-principal-credential', '-c'])
         c.argument('azure_tenent', ingestion_auth_tenent_type, options_list=['--tenent', '-t'])
         c.argument('configuration_file', configuration_file_type, options_list=['--configuration', '-f'])
+
+    with self.argument_context('ingestion auth user') as c:
+        c.argument('scope', ingestion_auth_scope_type, options_list=['--scope', '-sc'])
+
+    with self.argument_context('ingestion auth platform') as c:
+        c.argument('service_principal', ingestion_auth_type, options_list=['--service-principal', '-sp'])
+        c.argument('dev_platform', ingestion_auth_type, options_list=['--dev-portal', '-dp'])
+        c.argument('refresh_token', ingestion_auth_type, options_list=['--refresh-token', '-rt'])
 
     ##############################################
     # Platform Config

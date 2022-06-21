@@ -5,9 +5,9 @@
 
 import requests
 from knack.util import CLIError
-from .contracts.ITokenProvider import ITokenProvider
+from .contracts.ISPTokenProvider import ISPTokenProvider
 
-class SPTokenConfigurationService(ITokenProvider):
+class SPTokenConfigurationService(ISPTokenProvider):
     """
     Service used to request an access token for a service principal. 
     """

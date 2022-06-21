@@ -6,11 +6,11 @@
 from abc import ABC, abstractmethod
 
 
-class ITokenProvider(ABC):
+class IUserTokenProvider(ABC):
     @abstractmethod
-    def prepare(self, tenent, principal, credential, configuration):
-        """prepare environment for acquisition"""
+    def acquire_token(self, scope:str) -> dict:
+        """get a token"""
 
     @abstractmethod
-    def acquire_token(self) -> dict:
-        """get a token"""
+    def acquire_platform_token(self, refresh_token:str, client_id:str, dev_portal:str) -> dict:
+        """get a token"""        

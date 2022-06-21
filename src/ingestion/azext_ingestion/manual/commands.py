@@ -30,13 +30,19 @@ def load_command_table(self, _):
     # Token
     ############################################
 
-    # This is a sub command group az ingestion token that takes in a client factory which will 
-    # produce the correct validation object for the inputs. 
-    from azext_ingestion.manual._client_factory import cf_token_get
-    with self.command_group('ingestion token',client_factory=cf_token_get, is_experimental=True) as g:
-        g.custom_command('get', 'get_token')
+    # Command for getting a service principal token (usable with platform or whatever.)
+    from azext_ingestion.manual._client_factory import cf_sptoken_get
+    with self.command_group('ingestion auth',client_factory=cf_sptoken_get, is_experimental=True) as g:
+        g.custom_command('sp', 'get_token')
 
-    with self.command_group('ingestion token', is_preview=True):
+    # Commands for getting token for user (restricted to Azure Resources) or platform which takes
+    # a users refresh token and provides a token to use with the platform. 
+    from azext_ingestion.manual._client_factory import cf_usertoken_get
+    with self.command_group('ingestion auth',client_factory=cf_usertoken_get, is_experimental=True) as g:
+        g.custom_command('user', 'get_user_token')
+        g.custom_command('platform', 'get_platform_token')
+
+    with self.command_group('ingestion auth', is_preview=True):
         pass
 
     ############################################

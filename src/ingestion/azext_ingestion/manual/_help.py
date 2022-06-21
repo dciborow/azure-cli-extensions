@@ -27,23 +27,45 @@ helps['ingestion list'] = """
 """
 
 # Help for sub command ingestion token - get
-helps['ingestion token get'] = """
+helps['ingestion auth sp'] = """
     type: command
-    short-summary: Get authentication token.
+    short-summary: Get authentication token for service principal.
     examples:
-      - name: Acquire platform token
+      - name: Acquire service principal token
         text: |-
                 Token can be acquired by providing the configuration direction or by providing a 
                 configuration json file with the settings contained within it. 
 
-                az ingestion token --tenent "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                az ingestion auth sp --tenent "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
                                   --service-principal "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
                                   --service-principal-credential "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
                 or
                 
                 Supply a configuration file, as a json dictionry, with the above fields. 
                 
-                az ingestion token --configuration "local_json_with_settings"
+                az ingestion auth sp --configuration "local_json_with_settings"
+"""
+
+helps['ingestion auth platform'] = """
+    type: command
+    short-summary: Get authentication token from existing platform refresh token
+    examples:
+      - name: Acquire platform token
+        text: |-
+
+                az ingestion auth platform --service-principal "principal id used to generate original token"
+                                        --dev-portal "Experience Lab development portal url"
+                                        --refresh-token "Refresh token to use"
+"""
+
+helps['ingestion auth user'] = """
+    type: command
+    short-summary: Get authentication token for current user.
+    examples:
+      - name: Acquire user token
+        text: |-
+
+                az ingestion auth user --scope "https://management.azure.com/.default"
 """
 
 helps['ingestion platform add'] = """

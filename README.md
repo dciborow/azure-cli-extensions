@@ -58,9 +58,11 @@ Might come in handy, [management client](https://github.com/Azure/azure-cli-exte
         - tool
         - execute
 
-- az ingestion token
+- az ingestion auth
     - Commands
-        - get : Retrieve SP authentication token
+        - sp : Retrieve SP authentication token for use on platform or anywhere else.
+        - user : Retrieve user authentication token for a given Azure scope, not platform friendly.
+        - platform : Retrieve a user authentication token from a refresh token good for platform. 
     - Sub Groups : None
 
 - az ingestion platform
