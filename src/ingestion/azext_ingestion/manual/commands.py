@@ -61,14 +61,14 @@ def load_command_table(self, _):
     ############################################
     # Tool Configuration
     ############################################
-    from azext_ingestion.manual._client_factory import cf_tool_config
-    with self.command_group('ingestion tool',client_factory=cf_tool_config, is_experimental=True) as g:
-        g.custom_command('add', 'add_tool')
-        g.custom_command('list', 'list_tools')
-        g.custom_command('remove', 'remove_tool')
-        g.custom_command('show', 'show_tool')
+    from azext_ingestion.manual._client_factory import cf_utility_config
+    with self.command_group('ingestion utility',client_factory=cf_utility_config, is_experimental=True) as g:
+        g.custom_command('add', 'add_utility')
+        g.custom_command('list', 'list_utility')
+        g.custom_command('remove', 'remove_utility')
+        g.custom_command('show', 'show_utility')
 
-    with self.command_group('ingestion tool', is_preview=True):
+    with self.command_group('ingestion utility', is_preview=True):
         pass
 
     ############################################

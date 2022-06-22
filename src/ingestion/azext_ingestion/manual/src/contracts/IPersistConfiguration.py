@@ -13,7 +13,12 @@ from knack.util import CLIError
 class IPersistConfiguration(ABC):
 
     EXTENSION_ROOT = ".azext_ingestion"
-    SECTION_NAME = "name"
+    NAME_PROP = "name"
+    TYPE_PROP = "type"
+    
+    PERSIST_TYPE_JOB = "job"
+    PERSIST_TYPE_PLATFORM = "platform"
+    PERSIST_TYPE_UTILITY = "utility"
 
     def __init__(self, sub_path: str, file_name:str):
         self.sub_path = sub_path
@@ -72,6 +77,7 @@ class IPersistConfiguration(ABC):
             with open(path, "w") as configuration_file:
                 configuration_file.writelines(written_data)
 
+
     @abstractmethod
     def get_section(self, section_name:str) -> dict:
         """Get a section, return None if not found"""
@@ -79,6 +85,19 @@ class IPersistConfiguration(ABC):
     @abstractmethod
     def put_section(self, section_name:str, data:dict) -> None:
         """Put a section, if data is none, remove it."""
+
+
+    @staticmethod
+    def validate_requirements(data:dict, persist_type:str):
+        if isinstance(data, dict):
+            if IPersistConfiguration.NAME_PROP not in data:
+                raise CLIError("'name' is missing from persistant data")
+            if IPersistConfiguration.TYPE_PROP not in data:
+                raise CLIError("'type' is missing from persistant data")
+            
+            if persist_type:
+                if persist_type.lower() != str(data[IPersistConfiguration.TYPE_PROP]).lower():
+                    raise CLIError("Invalid 'type' in data, expected {}".format(persist_type))
 
     @staticmethod
     def load_configuration(configuration_file:str, as_json:bool) -> object:

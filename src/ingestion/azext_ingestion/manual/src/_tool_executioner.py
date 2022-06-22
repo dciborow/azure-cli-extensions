@@ -22,7 +22,7 @@ class ToolExecutioner(IToolExecution):
             self, 
             authentication_token:str, 
             platform:dict, 
-            tool:dict, 
+            utility:dict, 
             job_configuration:dict
         ):
         """
@@ -31,5 +31,5 @@ class ToolExecutioner(IToolExecution):
         print("Executing Job")
         print("Token:", authentication_token)
         print("Platform:", platform)
-        print("Tool:", tool)
+        print("Utility:", utility)
         print("Job:", job_configuration)                        

@@ -6,16 +6,16 @@
 from .contracts.IPersistConfiguration import IPersistConfiguration
 
 
-class ToolPersistConfiguration(IPersistConfiguration):
+class UtilityPersistConfiguration(IPersistConfiguration):
     """
     Tools have not specified format, so it's a free for all here. 
     """
 
     # File name for storage
-    TOOL_CONF_DATA = "tool_conf.json"
+    TOOL_CONF_DATA = "utility_conf.json"
 
     def __init__(self):
-        super().__init__(None, ToolPersistConfiguration.TOOL_CONF_DATA)
+        super().__init__(None, UtilityPersistConfiguration.TOOL_CONF_DATA)
         self.configuration = {}
 
     def get_section(self, section_name:str) -> dict:

@@ -11,7 +11,7 @@ class IToolExecution(ABC):
         self, 
         authentication_token:str, 
         platform:dict, 
-        tool:dict, 
+        utility:dict, 
         job_configuration:str
     ):
         """prepare environment for acquisition"""

@@ -69,27 +69,27 @@ def load_arguments(self, _):
         c.argument('configuration_file', configuration_file_type, options_list=['--configuration', '-f'])
 
     with self.argument_context('ingestion platform show') as c:
-        c.argument('platform_name', configuration_section_platform, options_list=['--platform', '-p'])
+        c.argument('platform_name', configuration_section_platform, options_list=['--name', '-n'])
 
     with self.argument_context('ingestion platform remove') as c:
-        c.argument('platform_name', configuration_section_platform, options_list=['--platform', '-p'])
+        c.argument('platform_name', configuration_section_platform, options_list=['--name', '-n'])
 
     ##############################################
     # Tool Config
     ##############################################
-    with self.argument_context('ingestion tool add', validator=configuration_file_validator) as c:
+    with self.argument_context('ingestion utility add', validator=configuration_file_validator) as c:
         c.argument('configuration_file', configuration_file_type, options_list=['--configuration', '-f'])
 
-    with self.argument_context('ingestion tool show') as c:
-        c.argument('tool_name', configuration_section_tool, options_list=['--tool', '-t'])
+    with self.argument_context('ingestion utility show') as c:
+        c.argument('utility_name', configuration_section_tool, options_list=['--name', '-n'])
 
-    with self.argument_context('ingestion tool remove') as c:
-        c.argument('tool_name', configuration_section_tool, options_list=['--tool', '-t'])
+    with self.argument_context('ingestion utility remove') as c:
+        c.argument('utility_name', configuration_section_tool, options_list=['--name', '-n'])
 
     ##############################################
     # Tool Execute
     ##############################################
     with self.argument_context('ingestion execute', validator=configuration_file_validator) as c:
         c.argument('platform_name', configuration_section_platform, options_list=['--platform', '-p'])
-        c.argument('tool_name', configuration_section_tool, options_list=['--tool', '-t'])
+        c.argument('utility_name', configuration_section_tool, options_list=['--utility', '-u'])
         c.argument('configuration_file', configuration_file_type, options_list=['--configuration', '-f'])

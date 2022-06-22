@@ -56,10 +56,9 @@ def add_platform(cmd, client:IPersistConfiguration, configuration_file:str):
     client.get_configuration()
     
     platform_settings = IPersistConfiguration.load_configuration(configuration_file, True)
-    if IPersistConfiguration.SECTION_NAME not in platform_settings:
-        raise CLIError("Platform name is missing from configuration {}".format(configuration_file))
+    IPersistConfiguration.validate_requirements(platform_settings, IPersistConfiguration.PERSIST_TYPE_PLATFORM)
 
-    client.put_section(platform_settings[IPersistConfiguration.SECTION_NAME], platform_settings)
+    client.put_section(platform_settings[IPersistConfiguration.NAME_PROP], platform_settings)
     return list_platforms(None, client)
 
 def show_platform(cmd, client:IPersistConfiguration, platform_name):
@@ -75,41 +74,40 @@ def remove_platform(cmd, client:IPersistConfiguration, platform_name):
         client.put_section(platform_name, None)
 
 ############################################
-# Tool Configuration
+# Utility Configuration
 ############################################
-def list_tools(cmd, client:IPersistConfiguration):
+def list_utility(cmd, client:IPersistConfiguration):
     config = client.get_configuration()
     if not config:
         config = {}
     return config
 
-def add_tool(cmd, client:IPersistConfiguration, configuration_file:str):
+def add_utility(cmd, client:IPersistConfiguration, configuration_file:str):
     client.get_configuration()
     
     platform_settings = IPersistConfiguration.load_configuration(configuration_file, True)
-    if IPersistConfiguration.SECTION_NAME not in platform_settings:
-        raise CLIError("Platform name is missing from configuration {}".format(configuration_file))
+    IPersistConfiguration.validate_requirements(platform_settings, IPersistConfiguration.PERSIST_TYPE_UTILITY)
 
-    client.put_section(platform_settings[IPersistConfiguration.SECTION_NAME], platform_settings)
+    client.put_section(platform_settings[IPersistConfiguration.NAME_PROP], platform_settings)
     return list_platforms(None, client)
 
-def show_tool(cmd, client:IPersistConfiguration, tool_name):
+def show_utility(cmd, client:IPersistConfiguration, utility_name):
     client.get_configuration()
-    tool = client.get_section(tool_name)
-    if not tool:
-        print("Tool {} not found".format(tool_name))
-    return tool
+    utility = client.get_section(utility_name)
+    if not utility:
+        print("Utility {} not found".format(utility_name))
+    return utility
 
-def remove_tool(cmd, client:IPersistConfiguration, tool_name):
+def remove_utility(cmd, client:IPersistConfiguration, utility_name):
     conf = client.get_configuration()
-    if tool_name in conf:
-        client.put_section(tool_name, None)
+    if utility_name in conf:
+        client.put_section(utility_name, None)
 
 
 ############################################
 # Tool Execution
 ############################################
-def execute_tool(cmd, client:ToolExecutionContext, platform_name, tool_name, configuration_file):
+def execute_tool(cmd, client:ToolExecutionContext, platform_name, utility_name, configuration_file):
 
     # Obtain the platform settings from persistance
     platform = show_platform(None, client.platform_config, platform_name)
@@ -117,14 +115,15 @@ def execute_tool(cmd, client:ToolExecutionContext, platform_name, tool_name, con
         raise CLIError("Platform is an invalid target for job: {}".format(platform_name))
 
     # Obtain the tool settings from persistance
-    tool = show_tool(None, client.tool_config, tool_name)
-    if not tool:
-        raise CLIError("Tool is an invalid target for job: {}".format(tool_name))
+    utility = show_utility(None, client.tool_config, utility_name)
+    if not utility:
+        raise CLIError("Utility is an invalid target for job: {}".format(utility_name))
 
     # Load the job configuration as JSON (fails if not json)
     job = IPersistConfiguration.load_configuration(configuration_file, True)
     if not job:
         raise CLIError("Job configuration is an invalid target for job: {}".format(configuration_file))
+    IPersistConfiguration.validate_requirements(job, IPersistConfiguration.PERSIST_TYPE_JOB)
 
     # Execute the job...this will likely be different as jobs expand. 
-    client.executor.execute("foobarauth", platform, tool, job)
+    client.executor.execute("foobarauth", platform, utility, job)

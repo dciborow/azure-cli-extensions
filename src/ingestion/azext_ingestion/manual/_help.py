@@ -70,7 +70,7 @@ helps['ingestion auth user'] = """
 
 helps['ingestion platform add'] = """
     type: command
-    short-summary: Adds an OSDU platform configuration to tool settings.
+    short-summary: Adds an OSDU platform configuration to cli settings.
     examples:
       - name: Adds a platform to the internal settings to be used later.
         text: |-
@@ -78,6 +78,7 @@ helps['ingestion platform add'] = """
 
                 {
                     "name" : "Platform name, spaces require quotes when show/remove called",
+                    "type" : "platform",
                     "url" : "Base Url of the OSDU platform",
                     "data_partition" : "Name of the data partition to use",
                     "api_path" : {
@@ -94,16 +95,17 @@ helps['ingestion platform add'] = """
                 }
 """
 
-helps['ingestion tool add'] = """
+helps['ingestion utility add'] = """
     type: command
-    short-summary: Adds a tool configuration to the settings.
+    short-summary: Adds a utility configuration to the settings.
     examples:
-      - name: Adds a tool to the internal settings to be used later.
+      - name: Adds a utility to the internal settings to be used later.
         text: |-
                 File format is JSON and MUST contain the following fields:
 
                 {
                     "name" : "Platform name, spaces require quotes when show/remove called",
+                    "type" : "utility",
                     "others" : "not validated"
                 }
 """

@@ -43,12 +43,12 @@ def cf_platform_config(cli_ctx, *_) -> IPersistConfiguration:
     from .src._osdu_persist_config import OSDUPersistConfiguration
     return OSDUPersistConfiguration()
 
-def cf_tool_config(cli_ctx, *_) -> IPersistConfiguration:
+def cf_utility_config(cli_ctx, *_) -> IPersistConfiguration:
     """
     Client for persisting tool configurations
     """
-    from .src._tool_persist_config import ToolPersistConfiguration
-    return ToolPersistConfiguration()
+    from .src._utility_persist_config import UtilityPersistConfiguration
+    return UtilityPersistConfiguration()
 
 def cf_tool_executor(cli_ctx, *_) -> ToolExecutionContext:
     """
@@ -58,5 +58,5 @@ def cf_tool_executor(cli_ctx, *_) -> ToolExecutionContext:
     context = ToolExecutionContext()
     context.executor = ToolExecutioner()
     context.platform_config = cf_platform_config(None, None)
-    context.tool_config = cf_tool_config(None, None)
+    context.tool_config = cf_utility_config(None, None)
     return context
