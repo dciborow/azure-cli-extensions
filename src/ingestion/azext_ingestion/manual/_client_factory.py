@@ -6,7 +6,7 @@
 from knack.util import CLIError
 from azext_ingestion.manual.src.contracts.ISPTokenProvider import ISPTokenProvider
 from azext_ingestion.manual.src.contracts.IUserTokenProvider import IUserTokenProvider
-from azext_ingestion.manual.src._user_token_provider import CliUserInfo
+from azext_ingestion.manual.src._token_user_provider import CliUserInfo
 
 from azext_ingestion.manual.src.contracts.IPersistConfiguration import IPersistConfiguration
 from azext_ingestion.manual.src._tool_executioner import ToolExecutionContext, ToolExecutioner
@@ -25,7 +25,7 @@ def cf_usertoken_get(cli_ctx, *_) -> IUserTokenProvider:
     """
     Client for acquiring a user or platform token. 
     """
-    from .src._user_token_provider import UserTokenProvider
+    from .src._token_user_provider import UserTokenProvider
     client_info = CliUserInfo(cli_ctx)
     return UserTokenProvider(client_info)
 
@@ -33,21 +33,21 @@ def cf_sptoken_get(cli_ctx, *_) -> ISPTokenProvider:
     """
     Client for acquiring a service principal token. 
     """
-    from .src._sp_token_provider import SPTokenConfigurationService
+    from .src._token_sp_token import SPTokenConfigurationService
     return SPTokenConfigurationService()
 
 def cf_platform_config(cli_ctx, *_) -> IPersistConfiguration:
     """
     Client for persisting platform configurations
     """
-    from .src._osdu_persist_config import OSDUPersistConfiguration
+    from .src._persist_osdu_config import OSDUPersistConfiguration
     return OSDUPersistConfiguration()
 
 def cf_utility_config(cli_ctx, *_) -> IPersistConfiguration:
     """
     Client for persisting tool configurations
     """
-    from .src._utility_persist_config import UtilityPersistConfiguration
+    from .src._persist_utility_config import UtilityPersistConfiguration
     return UtilityPersistConfiguration()
 
 def cf_tool_executor(cli_ctx, *_) -> ToolExecutionContext:
