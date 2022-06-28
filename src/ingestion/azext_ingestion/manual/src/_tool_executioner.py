@@ -6,6 +6,12 @@
 from .contracts.IToolExecution import IToolExecution
 from .contracts.IPersistConfiguration import IPersistConfiguration
 
+class ToolExecutionContent:
+    def __init__(self):
+        self.platform:dict = None
+        self.tool:dict = None
+        self.tool_params:dict = None
+
 class ToolExecutionContext:
     def __init__(self):
         self.platform_config:IPersistConfiguration = None

@@ -74,9 +74,9 @@ def load_command_table(self, _):
     ############################################
     # Tool Execution Configuration
     ############################################
-    from azext_ingestion.manual._client_factory import cf_tool_executor
-    with self.command_group('ingestion execute',client_factory=cf_tool_executor, is_experimental=True) as g:
-        g.custom_command('job', 'execute_tool')
+    from azext_ingestion.manual._client_factory import cf_tool_executor_example
+    with self.command_group('ingestion execute',client_factory=cf_tool_executor_example, is_experimental=True) as g:
+        g.custom_command('job', 'execute_utility')
 
     with self.command_group('ingestion execute', is_preview=True):
         pass

@@ -73,10 +73,10 @@ Might come in handy, [management client](https://github.com/Azure/azure-cli-exte
         - remove: Remove a configuration
     - Sub Groups : None
 
-- az ingestion tool
+- az ingestion utility
     - Commands
-        - add : Add tool config
-        - list : List tools
+        - add : Add utility config
+        - list : List utility
         - show : Show a specific configuration
         - remove: Remove a configuration
     - Sub Groups : None

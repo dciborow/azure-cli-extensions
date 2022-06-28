@@ -29,7 +29,7 @@ class IPersistConfiguration(ABC):
 
     def get_configuration(self) -> dict:
        
-        return_data = None
+        return_data = {}
 
         if not self.file_name:
             raise CLIError("Configuration file is required.")

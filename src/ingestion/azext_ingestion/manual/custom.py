@@ -7,7 +7,7 @@ from knack.util import CLIError
 from azext_ingestion.manual.src.contracts.ISPTokenProvider import ISPTokenProvider
 from azext_ingestion.manual.src.contracts.IUserTokenProvider import IUserTokenProvider
 from azext_ingestion.manual.src.contracts.IPersistConfiguration import IPersistConfiguration
-from azext_ingestion.manual.src._tool_executioner import ToolExecutionContext
+from azext_ingestion.manual.src._tool_executioner import ToolExecutionContext, ToolExecutionContent
 
 """ Original template unused
 def create_ingestion(cmd, client, resource_group_name, ingestion_name, location=None, tags=None):
@@ -31,13 +31,6 @@ def get_token(cmd, client:ISPTokenProvider, azure_tenent:str, service_principal:
     return client.acquire_token()
 
 def get_user_token(cmd, client:IUserTokenProvider, scope:str):
-    #refresh = "0.ARoAv4j5cvGGr0GRqy180BHbR1xIGCFCSNtDsB1OeiE2cNgaAEM.AgABAAEAAAD--DLA3VO7QrddgJg7WevrAgDs_wQA9P-MspfGA4XYo01wv5LC163iSE0Q_KWqbDxHKwhqk7YiM8BsZvAJqQQPEm3oCT53WM5Gl0aOgsJvFjaIx0MjgkYXJC0Cxwb26eJb3fpD9aJGpSi8-aEm2OhGXfFe4PoyxPZW-KCuotg0SNeYnk5fYZdklOE3rqmjwKQ8CzqRtI-xJQaXElYuA8JWioio8VMNCNeGEopfcJIoaGLqTDiSWEAeoqPYgoEe08pIl-bDonbgYsE37_UnQd-2MDIdl37SuOIrslpMbSCXdonZjQ_FokI1Ndif2sWKCrYz63E8GX43h4sQGDGIsNkMeNveSel8_4lUzhgdSVDYIrl3fsJOBFP-7TZRja1Lvg5NjY4cu4R4MAtLMAIht9HyiJHC3bqlAiRWhYq1b978w2YTXl1rqGy-E7pQ67PpGM_XrhIzYAaalgkzAmsad-RfeKXXLJdithgxeDcTEUpCTEz304LgI9JRjwGZdArBeoeUtsTcNVx4wb5vokhfhHLAXo0zHofGur20AqiI_r3IiALdCN-jn8cf_oZzOZISDeTL0ooOm4tAEcySVmuhp5Mo4_eLDIDntlZzuJ0faJ_2FZwmiN3QHMfPVIbtjjUQCLjnSdqwfHg7x2MhAHjIgzNU3sBbqWy1jkDuXO75U6DF0oJEfsGhwNnCVYod3OsrPmBqkhcSGvlCtRtQXLrbRH-dfH0g_7rD_hsAph78664wWCgbhVsikxTxvnqt1TgBFV2xUWiJUJjhN0Pz_MHhQNxkEonofzniDGy81t7Ii3nql9cyEueuF-QemZCxRbZhSVlWeBQqpMF8lxsjVuKUdkLBRB8yDJm69zxN_TqVvpVnqJ-aGLe3RR6n0kHYX_dGid0Aq296wNv1fn2u_iF7-PE17iC5moOPtwATZMZ4PotB9ltGLefo5bB4QZqxZwR0kM6QKHugMNMiboF_4d-y5S2yiW9wxWJHvqE6TLfoFHay9IoPYIC-BtXkcbNr6VpY49PKKh7F3RkvcFlFNzFNejFrMCzXKs_Dupcemi-qzZirkbcBJLlf_1fAoQ-OwOjKyvZZT5Wf4p1lv5jXNIdOvFjSX1HfQp-P-zF7mzzQbFeC8-Z5_ISKVWfN"
-    #dev_portal = "https://experiencelab1000.azurewebsites.net"
-    #client_id = "2118485c-4842-43db-b01d-4e7a213670d8"
-
-    #print("REFRESHED")
-    #t = client.acquire_platform_token(refresh, client_id, dev_portal)
-    #return t
     return client.acquire_token(scope)
 
 def get_platform_token(cmd, client:IUserTokenProvider, service_principal:str, dev_platform:str, refresh_token:str):
@@ -47,10 +40,7 @@ def get_platform_token(cmd, client:IUserTokenProvider, service_principal:str, de
 # Platform Configuration
 ############################################
 def list_platforms(cmd, client:IPersistConfiguration):
-    config = client.get_configuration()
-    if not config:
-        config = {}
-    return config
+    return client.get_configuration()
 
 def add_platform(cmd, client:IPersistConfiguration, configuration_file:str):
     client.get_configuration()
@@ -77,10 +67,7 @@ def remove_platform(cmd, client:IPersistConfiguration, platform_name):
 # Utility Configuration
 ############################################
 def list_utility(cmd, client:IPersistConfiguration):
-    config = client.get_configuration()
-    if not config:
-        config = {}
-    return config
+    return client.get_configuration()
 
 def add_utility(cmd, client:IPersistConfiguration, configuration_file:str):
     client.get_configuration()
@@ -107,23 +94,26 @@ def remove_utility(cmd, client:IPersistConfiguration, utility_name):
 ############################################
 # Tool Execution
 ############################################
-def execute_tool(cmd, client:ToolExecutionContext, platform_name, utility_name, configuration_file):
 
-    # Obtain the platform settings from persistance
-    platform = show_platform(None, client.platform_config, platform_name)
-    if not platform:
+def _get_utility_content(client:ToolExecutionContext, platform_name, utility_name, configuration_file) -> ToolExecutionContent:
+    return_content = ToolExecutionContent()
+
+    return_content.platform = show_platform(None, client.platform_config, platform_name)
+    if not return_content.platform:
         raise CLIError("Platform is an invalid target for job: {}".format(platform_name))
 
     # Obtain the tool settings from persistance
-    utility = show_utility(None, client.tool_config, utility_name)
-    if not utility:
+    return_content.tool = show_utility(None, client.tool_config, utility_name)
+    if not return_content.tool:
         raise CLIError("Utility is an invalid target for job: {}".format(utility_name))
 
-    # Load the job configuration as JSON (fails if not json)
-    job = IPersistConfiguration.load_configuration(configuration_file, True)
-    if not job:
+    return_content.tool_params = IPersistConfiguration.load_configuration(configuration_file, True)
+    if not return_content.tool_params:
         raise CLIError("Job configuration is an invalid target for job: {}".format(configuration_file))
-    IPersistConfiguration.validate_requirements(job, IPersistConfiguration.PERSIST_TYPE_JOB)
+    IPersistConfiguration.validate_requirements(return_content.tool_params, IPersistConfiguration.PERSIST_TYPE_JOB)
 
-    # Execute the job...this will likely be different as jobs expand. 
-    client.executor.execute("foobarauth", platform, utility, job)
+    return return_content
+
+def execute_utility(cmd, client:ToolExecutionContext, platform_name, utility_name, configuration_file):
+    job_content:ToolExecutionContent = _get_utility_content(client, platform_name, utility_name, configuration_file)
+    client.executor.execute("foobarauth", job_content.platform, job_content.tool, job_content.tool_params)

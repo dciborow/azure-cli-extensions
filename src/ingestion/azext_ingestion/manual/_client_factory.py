@@ -50,10 +50,14 @@ def cf_utility_config(cli_ctx, *_) -> IPersistConfiguration:
     from .src._persist_utility_config import UtilityPersistConfiguration
     return UtilityPersistConfiguration()
 
-def cf_tool_executor(cli_ctx, *_) -> ToolExecutionContext:
+def cf_tool_executor_example(cli_ctx, *_) -> ToolExecutionContext:
     """
     Client holding the selected tool and platform configuration data along with an 
     executor IToolExecution
+
+    For executioner provide the right execution class for the task you are trying to 
+    achieve. This is a simple example job executioner, but if we start wrapping all kinds 
+    of external tools this will be required to be different. 
     """
     context = ToolExecutionContext()
     context.executor = ToolExecutioner()
