@@ -51,37 +51,52 @@ Might come in handy, [management client](https://github.com/Azure/azure-cli-exte
 ## Commands
 
 - az energy 
-    - Commands: None
-    - Sub Groups
-        - token
-        - platform
-        - tool
-        - execute
+```bash
+Group
+    az energy : Commands to manage Energy Platform.
+Subgroups:
+    auth
+    execute
+    platform
+    utility
+```
 
 - az energy auth
-    - Commands
-        - sp : Retrieve SP authentication token for use on platform or anywhere else.
-        - user : Retrieve user authentication token for a given Azure scope, not platform friendly.
-        - platform : Retrieve a user authentication token from a refresh token good for platform. 
-    - Sub Groups : None
+```bash
+Group
+    az energy auth
+Commands:
+    platform : Get authentication token from existing platform refresh token.
+    sp       : Get authentication token for service principal.
+    user     : Get authentication token for current user.
+```
 
 - az energy platform
-    - Commands
-        - add : Add platform config
-        - list : List configurations
-        - show : Show a specific configuration
-        - remove: Remove a configuration
-    - Sub Groups : None
+```bash
+Group
+    az energy platform
+Commands:
+    add    : Adds an OSDU platform configuration to cli settings.
+    list
+    remove
+    show
+```
 
 - az energy utility
-    - Commands
-        - add : Add utility config
-        - list : List utility
-        - show : Show a specific configuration
-        - remove: Remove a configuration
-    - Sub Groups : None
+```bash
+Group
+    az energy utility
+Commands:
+    add    : Adds a utility configuration to the settings.
+    list
+    remove
+    show
+```
 
 - az energy execute
-    - Commands
-        - job : Run a job on a platform with a tool, auth token and job configuration.
-    - Sub Groups : None
+```bash
+Group
+    az energy execute
+Commands:
+    job
+```
