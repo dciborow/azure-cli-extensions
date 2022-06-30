@@ -4,20 +4,20 @@
 # --------------------------------------------------------------------------------------------
 
 from knack.util import CLIError
-from azext_ingestion.manual.src.contracts.ISPTokenProvider import ISPTokenProvider
-from azext_ingestion.manual.src.contracts.IUserTokenProvider import IUserTokenProvider
-from azext_ingestion.manual.src.contracts.IPersistConfiguration import IPersistConfiguration
-from azext_ingestion.manual.src._tool_executioner import ToolExecutionContext, ToolExecutionContent
+from azext_energy.manual.src.contracts.ISPTokenProvider import ISPTokenProvider
+from azext_energy.manual.src.contracts.IUserTokenProvider import IUserTokenProvider
+from azext_energy.manual.src.contracts.IPersistConfiguration import IPersistConfiguration
+from azext_energy.manual.src._tool_executioner import ToolExecutionContext, ToolExecutionContent
 
 """ Original template unused
-def create_ingestion(cmd, client, resource_group_name, ingestion_name, location=None, tags=None):
-    raise CLIError('TODO: Implement `ingestion create`')
+def create_energy(cmd, client, resource_group_name, energy_name, location=None, tags=None):
+    raise CLIError('TODO: Implement `energy create`')
 
 
-def list_ingestion(cmd, client, resource_group_name=None):
-    raise CLIError('TODO: Implement `ingestion list` darn it')
+def list_energy(cmd, client, resource_group_name=None):
+    raise CLIError('TODO: Implement `energy list` darn it')
 
-def update_ingestion(cmd, instance, tags=None):
+def update_energy(cmd, instance, tags=None):
     with cmd.update_context(instance) as c:
         c.set_param('tags', tags)
     return instance

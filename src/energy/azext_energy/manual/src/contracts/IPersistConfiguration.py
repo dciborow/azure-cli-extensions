@@ -12,7 +12,7 @@ from knack.util import CLIError
 
 class IPersistConfiguration(ABC):
 
-    EXTENSION_ROOT = ".azext_ingestion"
+    EXTENSION_ROOT = ".azext_energy"
     NAME_PROP = "name"
     TYPE_PROP = "type"
     

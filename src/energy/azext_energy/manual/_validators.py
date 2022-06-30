@@ -21,7 +21,7 @@ def example_name_or_id_validator(cmd, namespace):
                 name=namespace.storage_account
             )
 
-# For az ingestion auth sp, validate the parameters
+# For az energy auth sp, validate the parameters
 def acquire_token_validator(cmd, namespace):
     """
     Must provide service_principal, service_principal_secret, azure_tenent together 

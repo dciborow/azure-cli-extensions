@@ -1,0 +1,3 @@
+
+class CommandConstants:
+    ROOT = "energy"

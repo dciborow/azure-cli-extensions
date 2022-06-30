@@ -5,29 +5,30 @@
 # --------------------------------------------------------------------------------------------
 
 from knack.help_files import helps  # pylint: disable=unused-import
+from azext_energy.command_const import CommandConstants
 
 ############################################
 # Help commands for our commands and sub group
 # commands.
 ############################################
 
-helps['ingestion'] = """
+helps['{}'.format(CommandConstants.ROOT)] = """
     type: group
-    short-summary: Commands to manage Ingestions.
+    short-summary: Commands to manage Energy Platform.
 """
 
-helps['ingestion create'] = """
+helps['{} create'.format(CommandConstants.ROOT)] = """
     type: command
-    short-summary: Create a Ingestion.
+    short-summary: Create a Energy.
 """
 
-helps['ingestion list'] = """
+helps['{} list'.format(CommandConstants.ROOT)] = """
     type: command
-    short-summary: List Ingestions.
+    short-summary: List Energy.
 """
 
-# Help for sub command ingestion token - get
-helps['ingestion auth sp'] = """
+# Help for sub command energy token - get
+helps['{} auth sp'.format(CommandConstants.ROOT)] = """
     type: command
     short-summary: Get authentication token for service principal.
     examples:
@@ -36,39 +37,39 @@ helps['ingestion auth sp'] = """
                 Token can be acquired by providing the configuration direction or by providing a 
                 configuration json file with the settings contained within it. 
 
-                az ingestion auth sp --tenent "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                az energy auth sp --tenent "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
                                   --service-principal "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
                                   --service-principal-credential "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
                 or
                 
                 Supply a configuration file, as a json dictionry, with the above fields. 
                 
-                az ingestion auth sp --configuration "local_json_with_settings"
+                az energy auth sp --configuration "local_json_with_settings"
 """
 
-helps['ingestion auth platform'] = """
+helps['{} auth platform'.format(CommandConstants.ROOT)] = """
     type: command
     short-summary: Get authentication token from existing platform refresh token
     examples:
       - name: Acquire platform token
         text: |-
 
-                az ingestion auth platform --service-principal "principal id used to generate original token"
+                az energy auth platform --service-principal "principal id used to generate original token"
                                         --dev-portal "Experience Lab development portal url"
                                         --refresh-token "Refresh token to use"
 """
 
-helps['ingestion auth user'] = """
+helps['{} auth user'.format(CommandConstants.ROOT)] = """
     type: command
     short-summary: Get authentication token for current user.
     examples:
       - name: Acquire user token
         text: |-
 
-                az ingestion auth user --scope "https://management.azure.com/.default"
+                az energy auth user --scope "https://management.azure.com/.default"
 """
 
-helps['ingestion platform add'] = """
+helps['{} platform add'.format(CommandConstants.ROOT)] = """
     type: command
     short-summary: Adds an OSDU platform configuration to cli settings.
     examples:
@@ -95,13 +96,13 @@ helps['ingestion platform add'] = """
                 }
 """
 
-helps['ingestion utility add'] = """
+helps['{} utility add'.format(CommandConstants.ROOT)] = """
     type: command
     short-summary: Adds a utility configuration to the settings.
     examples:
       - name: Adds a utility to the internal settings to be used later.
         text: |-
-                File format is JSON and MUST contain the following fields:
+                XXX File format is JSON and MUST contain the following fields:
 
                 {
                     "name" : "Platform name, spaces require quotes when show/remove called",
@@ -111,18 +112,3 @@ helps['ingestion utility add'] = """
 """
 
 
-
-# helps['ingestion delete'] = """
-#     type: command
-#     short-summary: Delete a Ingestion.
-# """
-
-# helps['ingestion show'] = """
-#     type: command
-#     short-summary: Show details of a Ingestion.
-# """
-
-# helps['ingestion update'] = """
-#     type: command
-#     short-summary: Update a Ingestion.
-# """

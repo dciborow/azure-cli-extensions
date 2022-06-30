@@ -6,7 +6,7 @@ Example dxtensions repository, see the other repo [azure-cli-extension](https://
 
 The example extension here extends the Azure CLI with the following command:
 
-> az ingestion ....
+> az energy ....
 
 This batch of commands mimic the required settings to launch an ingestion process to an OSDU platform. 
 
@@ -19,7 +19,7 @@ An ingestion job requires a significant amount of information:
 
 This information is too bulky to be passed along with a single command line hence the extension stores platform and tool configuration information (never job or authentication information) to the local drive under the folder:
 
-> /platform_user_path/.azext_ingestion
+> /platform_user_path/.azext_energy
 
 <b>Contents</b>
 - [Repository Layout](#repository-layout)
@@ -29,7 +29,7 @@ This information is too bulky to be passed along with a single command line henc
 
 ## Repository Layout
 
-What is used in this repo (code under src/ingestion/azext_ingestion)
+What is used in this repo (code under src/energy/azext_energy)
 
 |Location|File|Interest|
 |---|----|----|
@@ -50,7 +50,7 @@ Might come in handy, [management client](https://github.com/Azure/azure-cli-exte
 
 ## Commands
 
-- az ingestion 
+- az energy 
     - Commands: None
     - Sub Groups
         - token
@@ -58,14 +58,14 @@ Might come in handy, [management client](https://github.com/Azure/azure-cli-exte
         - tool
         - execute
 
-- az ingestion auth
+- az energy auth
     - Commands
         - sp : Retrieve SP authentication token for use on platform or anywhere else.
         - user : Retrieve user authentication token for a given Azure scope, not platform friendly.
         - platform : Retrieve a user authentication token from a refresh token good for platform. 
     - Sub Groups : None
 
-- az ingestion platform
+- az energy platform
     - Commands
         - add : Add platform config
         - list : List configurations
@@ -73,7 +73,7 @@ Might come in handy, [management client](https://github.com/Azure/azure-cli-exte
         - remove: Remove a configuration
     - Sub Groups : None
 
-- az ingestion utility
+- az energy utility
     - Commands
         - add : Add utility config
         - list : List utility
@@ -81,7 +81,7 @@ Might come in handy, [management client](https://github.com/Azure/azure-cli-exte
         - remove: Remove a configuration
     - Sub Groups : None
 
-- az ingestion execute
+- az energy execute
     - Commands
         - job : Run a job on a platform with a tool, auth token and job configuration.
     - Sub Groups : None

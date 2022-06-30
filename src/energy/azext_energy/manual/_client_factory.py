@@ -4,15 +4,16 @@
 # --------------------------------------------------------------------------------------------
 
 from knack.util import CLIError
-from azext_ingestion.manual.src.contracts.ISPTokenProvider import ISPTokenProvider
-from azext_ingestion.manual.src.contracts.IUserTokenProvider import IUserTokenProvider
-from azext_ingestion.manual.src._token_user_provider import CliUserInfo
+from azext_energy.manual.src.contracts.ISPTokenProvider import ISPTokenProvider
+from azext_energy.manual.src.contracts.IUserTokenProvider import IUserTokenProvider
+from azext_energy.manual.src._token_user_provider import CliUserInfo
 
-from azext_ingestion.manual.src.contracts.IPersistConfiguration import IPersistConfiguration
-from azext_ingestion.manual.src._tool_executioner import ToolExecutionContext, ToolExecutioner
-def cf_ingestion(cli_ctx, *_):
+from azext_energy.manual.src.contracts.IPersistConfiguration import IPersistConfiguration
+from azext_energy.manual.src._tool_executioner import ToolExecutionContext, ToolExecutioner
+
+def cf_energy(cli_ctx, *_):
     """
-    Default ingestion client currently unused.
+    Default energy client currently unused.
     """
 
     from azure.cli.core.commands.client_factory import get_mgmt_service_client
