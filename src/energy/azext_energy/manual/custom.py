@@ -26,23 +26,42 @@ def update_energy(cmd, instance, tags=None):
 ############################################
 # Token
 ############################################
-def get_token(cmd, client:ISPTokenProvider, azure_tenent:str, service_principal:str, service_principal_secret:str, configuration_file:str):
+def get_token(
+    cmd, 
+    client:ISPTokenProvider, 
+    azure_tenent:str, 
+    service_principal:str, 
+    service_principal_secret:str, 
+    configuration_file:str
+):
+    """Get a bearer token for a service principal"""
     client.prepare(azure_tenent, service_principal, service_principal_secret, configuration_file)
     return client.acquire_token()
 
 def get_user_token(cmd, client:IUserTokenProvider, scope:str):
+    """Get an azure user scoped bearer token"""
     return client.acquire_token(scope)
 
-def get_platform_token(cmd, client:IUserTokenProvider, service_principal:str, dev_platform:str, refresh_token:str):
+def get_platform_token(
+    cmd, 
+    client:IUserTokenProvider, 
+    service_principal:str, 
+    dev_platform:str, 
+    refresh_token:str
+):
+    """Get a token for a user with SP information and a refresh token for the underlying
+    PaaS service"""
     return client.acquire_platform_token(refresh_token, service_principal, dev_platform)
 
 ############################################
 # Platform Configuration
 ############################################
 def list_platforms(cmd, client:IPersistConfiguration):
+    """List platforms in the backing configuration file"""
     return client.get_configuration()
 
 def add_platform(cmd, client:IPersistConfiguration, configuration_file:str):
+    """Add a platform to the backing configuration file"""
     client.get_configuration()
     
     platform_settings = IPersistConfiguration.load_configuration(configuration_file, True)
@@ -52,6 +71,7 @@ def add_platform(cmd, client:IPersistConfiguration, configuration_file:str):
     return list_platforms(None, client)
 
 def show_platform(cmd, client:IPersistConfiguration, platform_name):
+    """Show a platform from the backing configuration file"""
     client.get_configuration()
     platform = client.get_section(platform_name)
     if not platform:
@@ -59,6 +79,7 @@ def show_platform(cmd, client:IPersistConfiguration, platform_name):
     return platform
 
 def remove_platform(cmd, client:IPersistConfiguration, platform_name):
+    """Remove a platform from the backing configuration file"""
     conf = client.get_configuration()
     if platform_name in conf:
         client.put_section(platform_name, None)
@@ -67,9 +88,11 @@ def remove_platform(cmd, client:IPersistConfiguration, platform_name):
 # Utility Configuration
 ############################################
 def list_utility(cmd, client:IPersistConfiguration):
+    """List utilities in the backing configuration file"""
     return client.get_configuration()
 
 def add_utility(cmd, client:IPersistConfiguration, configuration_file:str):
+    """Add a utility from the backing configuration file"""
     client.get_configuration()
     
     platform_settings = IPersistConfiguration.load_configuration(configuration_file, True)
@@ -79,6 +102,7 @@ def add_utility(cmd, client:IPersistConfiguration, configuration_file:str):
     return list_platforms(None, client)
 
 def show_utility(cmd, client:IPersistConfiguration, utility_name):
+    """Show a utility from the backing configuration file"""
     client.get_configuration()
     utility = client.get_section(utility_name)
     if not utility:
@@ -86,6 +110,7 @@ def show_utility(cmd, client:IPersistConfiguration, utility_name):
     return utility
 
 def remove_utility(cmd, client:IPersistConfiguration, utility_name):
+    """Remove a utility from the backing configuration file"""
     conf = client.get_configuration()
     if utility_name in conf:
         client.put_section(utility_name, None)
@@ -96,6 +121,10 @@ def remove_utility(cmd, client:IPersistConfiguration, utility_name):
 ############################################
 
 def _get_utility_content(client:ToolExecutionContext, platform_name, utility_name, configuration_file) -> ToolExecutionContent:
+    """
+    Helper routine for job execution so that data can be acquired by the system to be 
+    passed off to an execution. 
+    """
     return_content = ToolExecutionContent()
 
     return_content.platform = show_platform(None, client.platform_config, platform_name)
@@ -115,5 +144,11 @@ def _get_utility_content(client:ToolExecutionContext, platform_name, utility_nam
     return return_content
 
 def execute_utility(cmd, client:ToolExecutionContext, platform_name, utility_name, configuration_file):
+    """
+    Current thinking here is that there is no need to pass an auth token because it will likely be part of the 
+    utility configuration for things like osdu cli or even sdutil. 
+
+    But it's too early to determine what this interface is really going to look like. 
+    """
     job_content:ToolExecutionContent = _get_utility_content(client, platform_name, utility_name, configuration_file)
     client.executor.execute("foobarauth", job_content.platform, job_content.tool, job_content.tool_params)

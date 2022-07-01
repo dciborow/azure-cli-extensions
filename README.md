@@ -8,47 +8,39 @@ The example extension here extends the Azure CLI with the following command:
 
 > az energy ....
 
-This batch of commands mimic the required settings to launch an ingestion process to an OSDU platform. 
+This batch of commands mimic the required settings manage a PaaS service and interact with it. 
 
-An ingestion job requires a significant amount of information:
-
-1. An authentication token that is permitted to perform actions on the OSDU instance.
-2. The configuration information about the OSDU platform, including platform URL, data partition, and endpoint URL's in which to perform tasks on. 
-3. Specific tool configuration information, such as what would be needed to execute an sdutils job. 
-4. Job configuration information about what data is to be moved with the chosen tool. 
-
-This information is too bulky to be passed along with a single command line hence the extension stores platform and tool configuration information (never job or authentication information) to the local drive under the folder:
+Configuration information used by the extension is stored in the following location on the users disk. It is not stored in Azure, so context is lost between machines. 
 
 > /platform_user_path/.azext_energy
 
 <b>Contents</b>
-- [Repository Layout](#repository-layout)
-- [Command Flow](#command-flow)
+- [Command Flow](#token-flow)
 - [Commands](#commands)
-
-
-## Repository Layout
-
-What is used in this repo (code under src/energy/azext_energy)
-
-|Location|File|Interest|
-|---|----|----|
-|.|__ init __.py|Prepares the commands to be called by the cli engine.|
-|.|custom.py|Imports calls to expose under generated/|
-|./generated|_params.py|Set up parameters and a parameter validation for the calls.|
-|./generated|_validators.py|Implements the parameter validators used in _params.py|
-|./generated|_help.py|The help shown when requested by the user.|
-|./generated|_client_factory.py|Clients that can be dynamically passed to calls.|
-|./generated|commands.py|Creates a sub group of calls|
-|./generated|custom.py|Contains the actual action call to get a token.|
 
 
 Might come in handy, [management client](https://github.com/Azure/azure-cli-extensions/blob/main/src/aks-preview/azext_aks_preview/_client_factory.py)
 
-## Command Flow
+## Token Flow 
+This flow is for grabbing a platform token. 
+
 ![flow](./images/flow.jpg)
 
 ## Commands
+
+The commands here are to be filled out to cover a range of items, however they have not been fully defined yet. 
+
+Actions such as create, list, show, delete of the platform are not incoroporated. Those, likely, will come from some generated code from an actual service in Azure. 
+
+The commands here are generally pretty basic to 
+- Generate authentication tokens
+    - These are not fully complete, but it's unclear if they need to be. 
+- Store settings for individual platforms or registered utility applications
+    - This CLI instance may end up just being a wrapper over other local utilities written by open communities or others. 
+- Job execution
+    - This is in a rudimentary state, but flushed out enough to build a design from it. 
+
+    
 
 - az energy 
 ```bash
