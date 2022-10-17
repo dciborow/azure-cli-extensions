@@ -33,12 +33,12 @@ class SPTokenConfigurationService(ISPTokenProvider):
             with open(configuration, "r") as config:
                 content = config.readlines()
                 content = "\n".join(content)
-            
+
             try:
                 import json
                 content = json.loads(content)
             except Exception as ex:
-                raise CLIError("{} is invalid JSON for configuration".format(configuration))
+                raise CLIError(f"{configuration} is invalid JSON for configuration")
 
             if SPTokenConfigurationService.PRINCIPAL in content:
                 self.principal_id = content[SPTokenConfigurationService.PRINCIPAL]
@@ -57,13 +57,11 @@ class SPTokenConfigurationService(ISPTokenProvider):
 
 
     def acquire_token(self) -> dict:
-        login_base = "login.microsoftonline.com/{}".format(self.tenent)
-        oauth_token_host = "{}/oauth2/token".format(login_base) 
-        token_url = "https://{}".format(oauth_token_host)
+        login_base = f"login.microsoftonline.com/{self.tenent}"
+        oauth_token_host = f"{login_base}/oauth2/token"
+        token_url = f"https://{oauth_token_host}"
 
-        headers = {}
-        headers["Content-Type"] = "application/x-www-form-urlencoded"
-
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
         request_body = """
             grant_type=client_credentials
             &client_id={CLIENT_ID}
@@ -73,8 +71,10 @@ class SPTokenConfigurationService(ISPTokenProvider):
 
         response = requests.post(url=token_url, headers=headers, data=request_body)
 
-        if response.status_code == 200:
-            response_json = response.json()
-            return {"token" : response_json["access_token"]} 
-        else:
-            raise CLIError('Error retrieving token: {}\n{}'.format(response.status_code, response.text))
+        if response.status_code != 200:
+            raise CLIError(
+                f'Error retrieving token: {response.status_code}\n{response.text}'
+            )
+
+        response_json = response.json()
+        return {"token" : response_json["access_token"]}

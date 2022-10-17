@@ -49,7 +49,7 @@ class IPersistConfiguration(ABC):
                     return_data = json.loads(data)
 
             except Exception as ex:
-                raise CLIError("Configuruation load error ({}): {}".format(path, str(ex)))
+                raise CLIError(f"Configuruation load error ({path}): {str(ex)}")
 
         return return_data
 
@@ -69,13 +69,13 @@ class IPersistConfiguration(ABC):
 
         path = os.path.join(path, self.file_name)
 
-        if not data:
-            if os.path.exists(path):
-                os.remove(path)
-        else:
+        if data:
             written_data = json.dumps(data, indent=4)
             with open(path, "w") as configuration_file:
                 configuration_file.writelines(written_data)
+
+        elif os.path.exists(path):
+            os.remove(path)
 
 
     @abstractmethod
@@ -94,23 +94,26 @@ class IPersistConfiguration(ABC):
                 raise CLIError("'name' is missing from persistant data")
             if IPersistConfiguration.TYPE_PROP not in data:
                 raise CLIError("'type' is missing from persistant data")
-            
-            if persist_type:
-                if persist_type.lower() != str(data[IPersistConfiguration.TYPE_PROP]).lower():
-                    raise CLIError("Invalid 'type' in data, expected {}".format(persist_type))
+
+            if (
+                persist_type
+                and persist_type.lower()
+                != str(data[IPersistConfiguration.TYPE_PROP]).lower()
+            ):
+                raise CLIError(f"Invalid 'type' in data, expected {persist_type}")
 
     @staticmethod
     def load_configuration(configuration_file:str, as_json:bool) -> object:
 
         if not os.path.exists(configuration_file):
-            raise CLIError("Configuration file missing: {}".format(configuration_file))
-       
+            raise CLIError(f"Configuration file missing: {configuration_file}")
+
         settings = None    
-       
+
         with open(configuration_file, "r") as configuration:
             settings = configuration.readlines()
             if as_json:
                 settings = "\n".join(settings)
                 settings = json.loads(settings)
-        
+
         return settings

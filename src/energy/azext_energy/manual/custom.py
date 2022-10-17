@@ -75,7 +75,7 @@ def show_platform(cmd, client:IPersistConfiguration, platform_name):
     client.get_configuration()
     platform = client.get_section(platform_name)
     if not platform:
-        print("Platform {} not found".format(platform_name))
+        print(f"Platform {platform_name} not found")
     return platform
 
 def remove_platform(cmd, client:IPersistConfiguration, platform_name):
@@ -106,7 +106,7 @@ def show_utility(cmd, client:IPersistConfiguration, utility_name):
     client.get_configuration()
     utility = client.get_section(utility_name)
     if not utility:
-        print("Utility {} not found".format(utility_name))
+        print(f"Utility {utility_name} not found")
     return utility
 
 def remove_utility(cmd, client:IPersistConfiguration, utility_name):
@@ -129,16 +129,19 @@ def _get_utility_content(client:ToolExecutionContext, platform_name, utility_nam
 
     return_content.platform = show_platform(None, client.platform_config, platform_name)
     if not return_content.platform:
-        raise CLIError("Platform is an invalid target for job: {}".format(platform_name))
+        raise CLIError(f"Platform is an invalid target for job: {platform_name}")
 
     # Obtain the tool settings from persistance
     return_content.tool = show_utility(None, client.tool_config, utility_name)
     if not return_content.tool:
-        raise CLIError("Utility is an invalid target for job: {}".format(utility_name))
+        raise CLIError(f"Utility is an invalid target for job: {utility_name}")
 
     return_content.tool_params = IPersistConfiguration.load_configuration(configuration_file, True)
     if not return_content.tool_params:
-        raise CLIError("Job configuration is an invalid target for job: {}".format(configuration_file))
+        raise CLIError(
+            f"Job configuration is an invalid target for job: {configuration_file}"
+        )
+
     IPersistConfiguration.validate_requirements(return_content.tool_params, IPersistConfiguration.PERSIST_TYPE_JOB)
 
     return return_content

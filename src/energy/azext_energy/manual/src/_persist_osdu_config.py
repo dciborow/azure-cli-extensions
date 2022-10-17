@@ -68,10 +68,11 @@ class OSDUPersistConfiguration(IPersistConfiguration):
 
     def get_section(self, section_name:str) -> dict:
         """Get a section, return None if not found"""
-        return_value = None
-        if section_name in self.configuration:
-            return_value = self.configuration[section_name]
-        return return_value
+        return (
+            self.configuration[section_name]
+            if section_name in self.configuration
+            else None
+        )
     
     def put_section(self, section_name:str, data:dict) -> None:
         """Put a section, if data is none, remove it."""
@@ -80,7 +81,7 @@ class OSDUPersistConfiguration(IPersistConfiguration):
         elif data and section_name:
             for field in OSDUPersistConfiguration.PLATFORM_VALIDATION:
                 if field not in data:
-                    raise CLIError("Required field missing in configuration: {}".format(field))
+                    raise CLIError(f"Required field missing in configuration: {field}")
 
             self.configuration[section_name] = data
 
@@ -88,10 +89,7 @@ class OSDUPersistConfiguration(IPersistConfiguration):
 
     def get_configuration(self) -> None:
         data = super().get_configuration()
-        if not data:
-            self.configuration = {}
-        else:
-            self.configuration = data
+        self.configuration = data or {}
         return self.configuration
 
     def save_configuration(self) -> None:
