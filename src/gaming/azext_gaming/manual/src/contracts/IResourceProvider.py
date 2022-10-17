@@ -6,11 +6,11 @@
 from abc import ABC, abstractmethod
 
 
-class IUserTokenProvider(ABC):
+class IResourceProvider(ABC):
     @abstractmethod
-    def acquire_token(self, scope:str) -> dict:
-        """get a token"""
+    def create(self, location, resource_group_name, name) -> dict:
+        """create ddc"""
 
     @abstractmethod
-    def acquire_platform_token(self, refresh_token:str, client_id:str, dev_portal:str) -> dict:
-        """get a token"""        
+    def list(self, location, resource_group_name) -> dict:
+        """list ddc"""

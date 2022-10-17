@@ -12,23 +12,31 @@ from azext_gaming.command_const import CommandConstants
 # commands.
 ############################################
 
-helps['{}'.format(CommandConstants.ROOT)] = """
+helps[
+    "{}".format(CommandConstants.ROOT)
+] = """
     type: group
     short-summary: Commands to manage Gaming Platform.
 """
 
-helps['{} create'.format(CommandConstants.ROOT)] = """
+helps[
+    "{} create".format(CommandConstants.ROOT)
+] = """
     type: command
     short-summary: Create a Gaming.
 """
 
-helps['{} list'.format(CommandConstants.ROOT)] = """
+helps[
+    "{} list".format(CommandConstants.ROOT)
+] = """
     type: command
     short-summary: List Gaming.
 """
 
 # Help for sub command gaming token - get
-helps['{} auth sp'.format(CommandConstants.ROOT)] = """
+helps[
+    "{} auth sp".format(CommandConstants.ROOT)
+] = """
     type: command
     short-summary: Get authentication token for service principal.
     examples:
@@ -47,7 +55,9 @@ helps['{} auth sp'.format(CommandConstants.ROOT)] = """
                 az gaming auth sp --configuration "local_json_with_settings"
 """
 
-helps['{} auth platform'.format(CommandConstants.ROOT)] = """
+helps[
+    "{} auth platform".format(CommandConstants.ROOT)
+] = """
     type: command
     short-summary: Get authentication token from existing platform refresh token
     examples:
@@ -59,7 +69,9 @@ helps['{} auth platform'.format(CommandConstants.ROOT)] = """
                                         --refresh-token "Refresh token to use"
 """
 
-helps['{} auth user'.format(CommandConstants.ROOT)] = """
+helps[
+    "{} auth user".format(CommandConstants.ROOT)
+] = """
     type: command
     short-summary: Get authentication token for current user.
     examples:
@@ -69,7 +81,9 @@ helps['{} auth user'.format(CommandConstants.ROOT)] = """
                 az gaming auth user --scope "https://management.azure.com/.default"
 """
 
-helps['{} platform add'.format(CommandConstants.ROOT)] = """
+helps[
+    "{} platform add".format(CommandConstants.ROOT)
+] = """
     type: command
     short-summary: Adds an OSDU platform configuration to cli settings.
     examples:
@@ -96,7 +110,9 @@ helps['{} platform add'.format(CommandConstants.ROOT)] = """
                 }
 """
 
-helps['{} utility add'.format(CommandConstants.ROOT)] = """
+helps[
+    "{} utility add".format(CommandConstants.ROOT)
+] = """
     type: command
     short-summary: Adds a utility configuration to the settings.
     examples:
@@ -110,5 +126,3 @@ helps['{} utility add'.format(CommandConstants.ROOT)] = """
                     "others" : "not validated"
                 }
 """
-
-

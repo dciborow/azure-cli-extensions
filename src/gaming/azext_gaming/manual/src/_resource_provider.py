@@ -7,32 +7,33 @@ import requests
 from knack.util import CLIError
 from azure.cli.core.auth.msal_authentication import UserCredential
 from azure.cli.core import AzCli
-from .contracts.IDDCProvider import IDDCProvider
+from .contracts.IResourceProvider import IResourceProvider
+
 
 class CliUserInfo:
-    def __init__(self,cli_ctx:AzCli):
+    def __init__(self, cli_ctx: AzCli):
         from azure.cli.core._profile import Profile
-        
+
         profile = Profile(cli_ctx=cli_ctx)
         cred, subscription_id, tenant = profile.get_login_credentials()
         management_token = cred._credential.get_token("https://management.azure.com/.default")
 
-        self.subscription_id = subscription_id 
-        self.user_tenent:str = tenant
-        self.user_cred:UserCredential = cred._credential
-        self.user_account:dict = cred._credential._account
-        self.user_mgmt_token:str = management_token.token
+        self.subscription_id = subscription_id
+        self.user_tenent: str = tenant
+        self.user_cred: UserCredential = cred._credential
+        self.user_account: dict = cred._credential._account
+        self.user_mgmt_token: str = management_token.token
 
-    def get_token(self, scope:str):
+    def get_token(self, scope: str):
         return self.user_cred.get_token(scope).token
 
-class DDCProvider(IDDCProvider):
 
-    def __init__(self, user_info:CliUserInfo):
+class ResourceProvider(IResourceProvider):
+    def __init__(self, user_info: CliUserInfo):
         self.user_info = user_info
 
-    def create(self) -> dict:
-        raise CLIError('TODO: Implement `gaming create`')
+    def create(self, location, resource_group_name, name) -> dict:
+        raise CLIError("TODO: Implement `gaming create`")
 
-    def list(self) -> dict:
-        raise CLIError('TODO: Implement `gaming list`')
+    def list(self, location, resource_group_name) -> dict:
+        raise CLIError("TODO: Implement `gaming list`")

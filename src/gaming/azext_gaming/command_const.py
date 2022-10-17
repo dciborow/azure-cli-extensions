@@ -1,3 +1,2 @@
-
 class CommandConstants:
     ROOT = "gaming"
