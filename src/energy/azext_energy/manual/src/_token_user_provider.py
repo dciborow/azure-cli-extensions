@@ -36,14 +36,15 @@ class UserTokenProvider(IUserTokenProvider):
         return { "token" : self.user_info.get_token(scope)}
 
     def acquire_platform_token(self, refresh_token:str, client_id:str, dev_portal:str) -> dict:
-        login_base = "login.microsoftonline.com/{}".format(self.user_info.user_tenent)
-        oauth_token_host = "{}/oauth2/v2.0/token".format(login_base)
-        token_url = "https://{}".format(oauth_token_host)
-        scopes = "{}/.default openid profile offline_access".format(client_id)
+        login_base = f"login.microsoftonline.com/{self.user_info.user_tenent}"
+        oauth_token_host = f"{login_base}/oauth2/v2.0/token"
+        token_url = f"https://{oauth_token_host}"
+        scopes = f"{client_id}/.default openid profile offline_access"
 
-        headers = {}
-        headers["Content-Type"] = "application/x-www-form-urlencoded"
-        headers["Origin"] = dev_portal
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Origin": dev_portal,
+        }
 
         request_body = """
             grant_type=refresh_token
@@ -54,8 +55,10 @@ class UserTokenProvider(IUserTokenProvider):
 
         response = requests.post(url=token_url, headers=headers, data=request_body)
 
-        if response.status_code == 200:
-            response_json = response.json()
-            return {"token" : response_json["access_token"]} 
-        else:
-            raise CLIError('Error retrieving token: {}\n{}'.format(response.status_code, response.text))
+        if response.status_code != 200:
+            raise CLIError(
+                f'Error retrieving token: {response.status_code}\n{response.text}'
+            )
+
+        response_json = response.json()
+        return {"token" : response_json["access_token"]}

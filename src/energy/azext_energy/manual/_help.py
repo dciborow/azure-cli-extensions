@@ -12,23 +12,34 @@ from azext_energy.command_const import CommandConstants
 # commands.
 ############################################
 
-helps['{}'.format(CommandConstants.ROOT)] = """
+helps[
+    f'{CommandConstants.ROOT}'
+] = """
     type: group
     short-summary: Commands to manage Energy Platform.
 """
 
-helps['{} create'.format(CommandConstants.ROOT)] = """
+
+helps[
+    f'{CommandConstants.ROOT} create'
+] = """
     type: command
     short-summary: Create a Energy.
 """
 
-helps['{} list'.format(CommandConstants.ROOT)] = """
+
+helps[
+    f'{CommandConstants.ROOT} list'
+] = """
     type: command
     short-summary: List Energy.
 """
 
+
 # Help for sub command energy token - get
-helps['{} auth sp'.format(CommandConstants.ROOT)] = """
+helps[
+    f'{CommandConstants.ROOT} auth sp'
+] = """
     type: command
     short-summary: Get authentication token for service principal.
     examples:
@@ -47,7 +58,10 @@ helps['{} auth sp'.format(CommandConstants.ROOT)] = """
                 az energy auth sp --configuration "local_json_with_settings"
 """
 
-helps['{} auth platform'.format(CommandConstants.ROOT)] = """
+
+helps[
+    f'{CommandConstants.ROOT} auth platform'
+] = """
     type: command
     short-summary: Get authentication token from existing platform refresh token
     examples:
@@ -59,7 +73,10 @@ helps['{} auth platform'.format(CommandConstants.ROOT)] = """
                                         --refresh-token "Refresh token to use"
 """
 
-helps['{} auth user'.format(CommandConstants.ROOT)] = """
+
+helps[
+    f'{CommandConstants.ROOT} auth user'
+] = """
     type: command
     short-summary: Get authentication token for current user.
     examples:
@@ -69,7 +86,10 @@ helps['{} auth user'.format(CommandConstants.ROOT)] = """
                 az energy auth user --scope "https://management.azure.com/.default"
 """
 
-helps['{} platform add'.format(CommandConstants.ROOT)] = """
+
+helps[
+    f'{CommandConstants.ROOT} platform add'
+] = """
     type: command
     short-summary: Adds an OSDU platform configuration to cli settings.
     examples:
@@ -96,7 +116,10 @@ helps['{} platform add'.format(CommandConstants.ROOT)] = """
                 }
 """
 
-helps['{} utility add'.format(CommandConstants.ROOT)] = """
+
+helps[
+    f'{CommandConstants.ROOT} utility add'
+] = """
     type: command
     short-summary: Adds a utility configuration to the settings.
     examples:
