@@ -3,7 +3,6 @@
 # Licensed under the MIT License. See License.txt in the project root for license information.
 # --------------------------------------------------------------------------------------------
 
-from git import refresh
 import requests
 from knack.util import CLIError
 from azure.cli.core.auth.msal_authentication import UserCredential

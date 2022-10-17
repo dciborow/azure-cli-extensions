@@ -27,6 +27,17 @@ def load_command_table(self, _):
         pass
 
     ############################################
+    # Unreal Cloud DDC Configuration
+    ############################################
+    from azext_gaming.manual._client_factory import cf_ddc_get
+    with self.command_group('{} ddc'.format(CommandConstants.ROOT),client_factory=cf_ddc_get, is_experimental=True) as g:
+        g.custom_command('create', 'create_ddc')
+        g.custom_command('list', 'list_ddc')
+
+    with self.command_group('{} ddc'.format(CommandConstants.ROOT), is_preview=True):
+        pass
+
+    ############################################
     # Token
     ############################################
 

@@ -4,6 +4,7 @@
 # --------------------------------------------------------------------------------------------
 
 from knack.util import CLIError
+from azext_gaming.manual.src.contracts.IDDCProvider import IDDCProvider
 from azext_gaming.manual.src.contracts.ISPTokenProvider import ISPTokenProvider
 from azext_gaming.manual.src.contracts.IUserTokenProvider import IUserTokenProvider
 from azext_gaming.manual.src._token_user_provider import CliUserInfo
@@ -21,6 +22,15 @@ def cf_gaming(cli_ctx, *_):
     # from azure.mgmt.CONTOSO import CONTOSOManagementClient
     # return get_mgmt_service_client(cli_ctx, CONTOSOManagementClient)
     return None
+
+
+def cf_ddc_get(cli_ctx, *_) -> IDDCProvider:
+    """
+    Client for acquiring a user or platform token. 
+    """
+    from .src._ddc_provider import DDCProvider
+    client_info = CliUserInfo(cli_ctx)
+    return DDCProvider(client_info)
 
 def cf_usertoken_get(cli_ctx, *_) -> IUserTokenProvider:
     """

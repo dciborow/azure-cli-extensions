@@ -8,6 +8,7 @@ from azext_gaming.manual.src.contracts.ISPTokenProvider import ISPTokenProvider
 from azext_gaming.manual.src.contracts.IUserTokenProvider import IUserTokenProvider
 from azext_gaming.manual.src.contracts.IPersistConfiguration import IPersistConfiguration
 from azext_gaming.manual.src._tool_executioner import ToolExecutionContext, ToolExecutionContent
+from azext_gaming.manual.src.contracts.IDDCProvider import IDDCProvider
 
 """ Original template unused
 def create_gaming(cmd, client, resource_group_name, gaming_name, location=None, tags=None):
@@ -15,13 +16,22 @@ def create_gaming(cmd, client, resource_group_name, gaming_name, location=None, 
 
 
 def list_gaming(cmd, client, resource_group_name=None):
-    raise CLIError('TODO: Implement `gaming list` darn it')
+    raise CLIError('TODO: Implement `gaming list`')
 
 def update_gaming(cmd, instance, tags=None):
     with cmd.update_context(instance) as c:
         c.set_param('tags', tags)
     return instance
 """
+
+############################################
+# Unreal Cloud DDC
+############################################
+def create_ddc(cmd, client:IDDCProvider, resource_group_name, name, location=None, tags=None):
+    return client.create()
+
+def list_ddc(cmd, client:IDDCProvider, resource_group_name=None):
+    return client.list()
 
 ############################################
 # Token
