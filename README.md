@@ -6,13 +6,13 @@ Example dxtensions repository, see the other repo [azure-cli-extension](https://
 
 The example extension here extends the Azure CLI with the following command:
 
-> az energy ....
+> az gaming ....
 
 This batch of commands mimic the required settings manage a PaaS service and interact with it. 
 
 Configuration information used by the extension is stored in the following location on the users disk. It is not stored in Azure, so context is lost between machines. 
 
-> /platform_user_path/.azext_energy
+> /platform_user_path/.azext_gaming
 
 <b>Contents</b>
 - [Command Flow](#token-flow)
@@ -42,10 +42,10 @@ The commands here are generally pretty basic to
 
     
 
-- az energy 
+- az gaming 
 ```bash
 Group
-    az energy : Commands to manage Energy Platform.
+    az gaming : Commands to manage Gaming Platform.
 Subgroups:
     auth
     execute
@@ -53,20 +53,20 @@ Subgroups:
     utility
 ```
 
-- az energy auth
+- az gaming auth
 ```bash
 Group
-    az energy auth
+    az gaming auth
 Commands:
     platform : Get authentication token from existing platform refresh token.
     sp       : Get authentication token for service principal.
     user     : Get authentication token for current user.
 ```
 
-- az energy platform
+- az gaming platform
 ```bash
 Group
-    az energy platform
+    az gaming platform
 Commands:
     add    : Adds an OSDU platform configuration to cli settings.
     list
@@ -74,10 +74,10 @@ Commands:
     show
 ```
 
-- az energy utility
+- az gaming utility
 ```bash
 Group
-    az energy utility
+    az gaming utility
 Commands:
     add    : Adds a utility configuration to the settings.
     list
@@ -85,10 +85,10 @@ Commands:
     show
 ```
 
-- az energy execute
+- az gaming execute
 ```bash
 Group
-    az energy execute
+    az gaming execute
 Commands:
     job
 ```
